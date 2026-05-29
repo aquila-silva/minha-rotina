@@ -1,1 +1,142 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Relatórios e análises da sua rotina">
+    <title>Relatórios | Daily Planner Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navegação Superior -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">📅 Daily Planner Pro</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">📋 Planejador</a></li>
+                <li><a href="relatorios.html" class="nav-link active">📊 Relatórios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Cabeçalho -->
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title">
+                    <span class="icon">📊</span> Análises e Relatórios
+                </div>
+                <button class="btn btn-info btn-sm" onclick="relatorios.atualizarDados()">
+                    🔄 Atualizar
+                </button>
+            </div>
+            <p class="card-subtitle">Acompanhe seu desempenho e evolução na organização diária</p>
+        </div>
+
+        <!-- Grid de Estatísticas -->
+        <div class="stats-row mb-20">
+            <div class="stat-card">
+                <div class="stat-value" id="statTotalAtividades">0</div>
+                <div class="stat-label">Total de Atividades (7 dias)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statMediaConclusao">0%</div>
+                <div class="stat-label">Média de Conclusão</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statDiasAtivos">0/7</div>
+                <div class="stat-label">Dias com Rotina</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statTempoTotal">0h</div>
+                <div class="stat-label">Tempo Total Dedicado</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statMelhorDia">-</div>
+                <div class="stat-label">Melhor Dia</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statCategoriaFavorita">-</div>
+                <div class="stat-label">Categoria Mais Usada</div>
+            </div>
+        </div>
+
+        <div class="page-grid" style="grid-template-columns: 1fr 1fr;">
+            <!-- Gráfico: Conclusão por Dia -->
+            <div class="card">
+                <div class="chart-container">
+                    <div class="chart-title">📊 Conclusão por Dia (7 dias)</div>
+                    <div id="graficoConclusao" class="bar-chart"></div>
+                </div>
+            </div>
+
+            <!-- Gráfico: Distribuição por Categoria -->
+            <div class="card">
+                <div class="chart-container">
+                    <div class="chart-title">🎯 Distribuição por Categoria</div>
+                    <div id="graficoCategorias" style="display: flex; flex-direction: column; gap: 12px;"></div>
+                </div>
+            </div>
+
+            <!-- Gráfico: Progresso Circular -->
+            <div class="card">
+                <div class="chart-container text-center">
+                    <div class="chart-title">🎯 Taxa de Sucesso Semanal</div>
+                    <div id="progressoCircular" style="position: relative; width: 150px; height: 150px; margin: 20px auto;">
+                        <!-- SVG para círculo de progresso -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atividades por Horário -->
+            <div class="card">
+                <div class="chart-container">
+                    <div class="chart-title">⏰ Atividades por Período</div>
+                    <div id="graficoPeriodos" class="bar-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Histórico Detalhado -->
+        <div class="card mt-20">
+            <div class="card-header">
+                <div class="card-title">
+                    <span class="icon">📅</span> Histórico dos Últimos 30 Dias
+                </div>
+                <input type="text" 
+                       id="buscaHistorico" 
+                       class="form-input" 
+                       placeholder="🔍 Buscar por data ou atividade..."
+                       style="width: 250px;"
+                       oninput="relatorios.filtrarHistorico()">
+            </div>
+            <div id="historicoDetalhado" style="max-height: 400px; overflow-y: auto;">
+                <!-- Tabela de histórico -->
+            </div>
+        </div>
+
+        <!-- Exportar Relatório -->
+        <div class="flex gap-10 justify-center mt-20 flex-wrap">
+            <button class="btn btn-warning" onclick="relatorios.exportarRelatorioPDF()">
+                📥 Exportar PDF
+            </button>
+            <button class="btn btn-info" onclick="relatorios.exportarRelatorioJSON()">
+                📋 Exportar JSON
+            </button>
+            <button class="btn btn-purple" onclick="relatorios.compartilharResumo()">
+                📤 Compartilhar Resumo
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/services.js"></script>
+    <script src="js/relatorios.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.relatorios = new RelatoriosManager();
+        });
+    </script>
+</body>
+</html>
