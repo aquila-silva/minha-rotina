@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Rotina</title>
+    <title>Minha Rotina com IA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: Arial, sans-serif;
-            background: #f0f2f5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
         }
         
@@ -17,15 +18,16 @@
             max-width: 600px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 5px;
+            font-size: 28px;
         }
         
         .data {
@@ -33,6 +35,69 @@
             color: #666;
             margin-bottom: 25px;
             font-size: 14px;
+        }
+        
+        .ia-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .ia-section p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .ia-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .ia-input input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .btn-ia {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        
+        .btn-ia:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .btn-ia:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            color: #667eea;
+            font-size: 14px;
+        }
+        
+        .loading.mostrar {
+            display: block;
         }
         
         .form-group {
@@ -43,10 +108,16 @@
         }
         
         input, select, button {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             font-size: 14px;
+            transition: 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
         }
         
         input {
@@ -60,7 +131,6 @@
             border: none;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
         }
         
         button:hover {
@@ -73,13 +143,27 @@
             padding: 15px;
             margin-bottom: 10px;
             background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #4A90E2;
+            border-radius: 12px;
+            border-left: 5px solid #4A90E2;
+            transition: 0.3s;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
         
         .atividade.concluida {
             opacity: 0.5;
             text-decoration: line-through;
+            border-left-color: #27AE60;
         }
         
         .info {
@@ -89,6 +173,7 @@
         .nome {
             font-weight: bold;
             margin-bottom: 3px;
+            font-size: 16px;
         }
         
         .detalhes {
@@ -97,9 +182,10 @@
         }
         
         .acoes button {
-            padding: 5px 10px;
+            padding: 8px 12px;
             margin-left: 5px;
-            font-size: 16px;
+            font-size: 18px;
+            border-radius: 8px;
         }
         
         .btn-concluir {
@@ -114,63 +200,271 @@
             text-align: center;
             padding: 40px;
             color: #999;
+            font-size: 16px;
         }
         
         .footer {
-            text-align: center;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
             margin-top: 20px;
         }
         
         .btn-limpar {
             background: #E74C3C;
-            font-size: 12px;
+            font-size: 13px;
+        }
+        
+        .btn-exportar {
+            background: #F39C12;
+            font-size: 13px;
+        }
+        
+        .config-api {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        
+        .config-api details {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .config-api input {
+            width: 100%;
+            margin-top: 8px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            animation: toastIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            .ia-input { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📅 Minha Rotina</h1>
+        <h1>📅 Minha Rotina com IA</h1>
         <p class="data" id="dataAtual"></p>
         
+        <!-- Seção IA -->
+        <div class="ia-section">
+            <p>🤖 <strong>IA Assistant</strong></p>
+            <div class="ia-input">
+                <input type="text" id="promptIA" placeholder="Ex: rotina produtiva de sábado">
+                <button class="btn-ia" onclick="gerarRotina()" id="btnGerar">
+                    ✨ Gerar Rotina
+                </button>
+            </div>
+            <div class="loading" id="loading">
+                ⏳ Gerando sugestões com IA...
+            </div>
+            <small style="color: #888;">Exemplos: "dia de estudos", "domingo relaxante", "rotina fitness"</small>
+        </div>
+        
+        <!-- Formulário Manual -->
         <div class="form-group">
             <input type="text" id="nome" placeholder="O que vai fazer?" required>
             <input type="time" id="hora" required>
-            <input type="number" id="duracao" placeholder="Minutos" min="1" value="30" style="width: 80px;">
+            <input type="number" id="duracao" placeholder="Min" min="1" value="30" style="width: 70px;">
             <button onclick="adicionar()">➕</button>
         </div>
         
+        <!-- Lista -->
         <div id="lista"></div>
         
+        <!-- Rodapé -->
         <div class="footer">
-            <button class="btn-limpar" onclick="limparTudo()">🗑️ Limpar tudo</button>
+            <button class="btn-limpar" onclick="limparTudo()">🗑️ Limpar</button>
+            <button class="btn-exportar" onclick="exportarDados()">📥 Exportar</button>
+        </div>
+        
+        <!-- Configuração API -->
+        <div class="config-api">
+            <details>
+                <summary>⚙️ Configurar API Gemini</summary>
+                <small>Cole sua chave API do Google Gemini:</small>
+                <input type="password" id="apiKey" placeholder="AIzaSy..." style="margin-top: 5px;">
+                <button onclick="salvarAPIKey()" style="margin-top: 5px; width: 100%;">💾 Salvar Chave</button>
+                <small style="display: block; margin-top: 5px;">
+                    Pegue sua chave gratuita em: 
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+                </small>
+            </details>
         </div>
     </div>
 
     <script>
+        // ============ CONFIGURAÇÃO ============
+        let API_KEY = localStorage.getItem('gemini_api_key') || '';
+        
+        // Carregar chave se existir
+        if (API_KEY) {
+            document.getElementById('apiKey').value = API_KEY;
+        }
+        
+        // ============ DADOS ============
+        let atividades = JSON.parse(localStorage.getItem('rotina') || '[]');
+        
         // Mostrar data
         document.getElementById('dataAtual').textContent = new Date().toLocaleDateString('pt-BR', {
             weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
         });
-
-        // Carregar atividades salvas
-        let atividades = JSON.parse(localStorage.getItem('rotina') || '[]');
-
-        // Salvar no navegador
-        function salvar() {
-            localStorage.setItem('rotina', JSON.stringify(atividades));
+        
+        // ============ FUNÇÕES ============
+        
+        // Salvar API Key
+        function salvarAPIKey() {
+            const key = document.getElementById('apiKey').value.trim();
+            if (key) {
+                API_KEY = key;
+                localStorage.setItem('gemini_api_key', key);
+                mostrarToast('✅ Chave API salva!');
+            }
         }
+        
+        // Gerar rotina com IA
+        async function gerarRotina() {
+            const prompt = document.getElementById('promptIA').value.trim();
+            
+            if (!API_KEY) {
+                alert('⚠️ Configure sua chave API primeiro!\n\nClique em "Configurar API Gemini" no final da página.');
+                return;
+            }
+            
+            if (!prompt) {
+                alert('Digite que tipo de rotina você quer!');
+                return;
+            }
+            
+            const btnGerar = document.getElementById('btnGerar');
+            const loading = document.getElementById('loading');
+            
+            btnGerar.disabled = true;
+            loading.classList.add('mostrar');
+            
+            try {
+                const sugestoes = await chamarGemini(prompt);
+                
+                if (sugestoes && sugestoes.length > 0) {
+                    // Perguntar antes de adicionar
+                    const resumo = sugestoes.map(a => 
+                        `• ${a.nome} às ${a.hora} (${a.duracao}min)`
+                    ).join('\n');
+                    
+                    if (confirm(`IA sugere ${sugestoes.length} atividades:\n\n${resumo}\n\nAdicionar à rotina?`)) {
+                        sugestoes.forEach(atv => {
+                            atividades.push({
+                                id: Date.now() + Math.random(),
+                                nome: atv.nome,
+                                hora: atv.hora,
+                                duracao: atv.duracao,
+                                concluida: false
+                            });
+                        });
+                        
+                        atividades.sort((a, b) => a.hora.localeCompare(b.hora));
+                        salvar();
+                        renderizar();
+                        mostrarToast(`✨ ${sugestoes.length} atividades adicionadas!`);
+                    }
+                }
+            } catch (erro) {
+                console.error('Erro:', erro);
+                alert('❌ Erro ao gerar rotina. Verifique sua chave API e tente novamente.');
+            } finally {
+                btnGerar.disabled = false;
+                loading.classList.remove('mostrar');
+            }
+        }
+        
+        // Chamar API Gemini
+        async function chamarGemini(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+            
+            const systemPrompt = `Você é um assistente de rotina diária. 
+O usuário quer uma rotina para: "${prompt}"
 
-        // Adicionar atividade
+Gere de 4 a 6 atividades realistas em formato JSON. 
+Cada atividade deve ter:
+- nome: descrição curta da atividade
+- hora: horário no formato HH:mm (24h), começando de manhã cedo
+- duracao: duração em minutos (entre 15 e 120)
+
+Distribua as atividades ao longo do dia de forma lógica.
+Responda APENAS com o JSON, sem texto adicional.
+
+Exemplo de formato:
+[
+  {"nome": "Acordar e alongar", "hora": "07:00", "duracao": 30},
+  {"nome": "Café da manhã", "hora": "07:30", "duracao": 30}
+]`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: systemPrompt
+                        }]
+                    }]
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Erro na API');
+            }
+            
+            const data = await response.json();
+            const texto = data.candidates[0].content.parts[0].text;
+            
+            // Extrair JSON da resposta
+            const jsonMatch = texto.match(/\[[\s\S]*\]/);
+            if (!jsonMatch) {
+                throw new Error('Formato inválido');
+            }
+            
+            return JSON.parse(jsonMatch[0]);
+        }
+        
+        // Adicionar manualmente
         function adicionar() {
             const nome = document.getElementById('nome').value.trim();
             const hora = document.getElementById('hora').value;
             const duracao = document.getElementById('duracao').value;
-
+            
             if (!nome || !hora || !duracao) {
                 alert('Preencha todos os campos!');
                 return;
             }
-
+            
             atividades.push({
                 id: Date.now(),
                 nome: nome,
@@ -178,19 +472,16 @@
                 duracao: duracao,
                 concluida: false
             });
-
-            // Ordenar por horário
+            
             atividades.sort((a, b) => a.hora.localeCompare(b.hora));
-
             salvar();
             renderizar();
             
-            // Limpar campos
             document.getElementById('nome').value = '';
             document.getElementById('nome').focus();
         }
-
-        // Concluir/desconcluir
+        
+        // Toggle conclusão
         function toggle(id) {
             const atividade = atividades.find(a => a.id === id);
             if (atividade) {
@@ -199,8 +490,8 @@
                 renderizar();
             }
         }
-
-        // Remover uma atividade
+        
+        // Remover atividade
         function remover(id) {
             if (confirm('Remover esta atividade?')) {
                 atividades = atividades.filter(a => a.id !== id);
@@ -208,25 +499,58 @@
                 renderizar();
             }
         }
-
+        
         // Limpar tudo
         function limparTudo() {
+            if (atividades.length === 0) {
+                alert('Nada para limpar!');
+                return;
+            }
+            
             if (confirm('Apagar TODAS as atividades?')) {
                 atividades = [];
                 salvar();
                 renderizar();
+                mostrarToast('🗑️ Rotina limpa!');
             }
         }
-
+        
+        // Exportar dados
+        function exportarDados() {
+            if (atividades.length === 0) {
+                alert('Nada para exportar!');
+                return;
+            }
+            
+            const dados = {
+                data: new Date().toISOString(),
+                atividades: atividades
+            };
+            
+            const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rotina_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            mostrarToast('📥 Dados exportados!');
+        }
+        
+        // Salvar no localStorage
+        function salvar() {
+            localStorage.setItem('rotina', JSON.stringify(atividades));
+        }
+        
         // Renderizar lista
         function renderizar() {
             const lista = document.getElementById('lista');
             
             if (atividades.length === 0) {
-                lista.innerHTML = '<p class="vazio">✨ Nenhuma atividade ainda</p>';
+                lista.innerHTML = '<p class="vazio">✨ Nenhuma atividade ainda<br><small>Adicione manualmente ou peça ajuda da IA!</small></p>';
                 return;
             }
-
+            
             lista.innerHTML = atividades.map(a => `
                 <div class="atividade ${a.concluida ? 'concluida' : ''}">
                     <div class="info">
@@ -242,14 +566,27 @@
                 </div>
             `).join('');
         }
-
-        // Atalho: Enter no formulário
+        
+        // Toast notification
+        function mostrarToast(mensagem) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = mensagem;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Atalhos
         document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && document.activeElement === document.getElementById('nome')) {
+                e.preventDefault();
                 adicionar();
             }
         });
-
+        
         // Iniciar
         renderizar();
     </script>
