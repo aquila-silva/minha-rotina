@@ -1,49 +1,267 @@
+Perfeito! Vamos criar uma versão completa com todas essas funcionalidades. Agora com menu lateral, cadastro em datas futuras, relatórios e IA melhorada.
+
+## 🚀 **Versão Completa - Organizador de Rotina**
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Rotina com IA</title>
+    <title>Daily Planner Pro</title>
     <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --warning: #F39C12;
+            --bg: #f0f2f5;
+            --card: white;
+            --text: #333;
+            --text-light: #666;
+            --border: #e0e0e0;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg);
             min-height: 100vh;
+            display: flex;
+        }
+
+        /* Menu Lateral Retrátil */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
             padding: 20px;
         }
-        
-        .container {
-            max-width: 650px;
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* Menu Hamburger */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 998;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        /* Container Principal */
+        .main-container {
+            flex: 1;
+            padding: 20px;
+            padding-left: 80px;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
+            width: 100%;
+        }
+
+        .container {
+            background: var(--card);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow);
         }
-        
+
         h1 {
             text-align: center;
-            color: #333;
+            color: var(--text);
             margin-bottom: 5px;
             font-size: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        /* Navegação de datas */
+
+        /* Seções do Menu */
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background: #f0f2f5;
+            transform: translateX(5px);
+        }
+
+        .menu-item .icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        /* Relatório no Menu */
+        .mini-relatorio {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .mini-relatorio h4 {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .relatorio-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            font-size: 13px;
+        }
+
+        .relatorio-stat:last-child {
+            border-bottom: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #2ecc71);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        /* Configuração API separada */
+        .config-api {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid #ffc107;
+        }
+
+        .config-api input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .config-api button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        /* Navegação de Datas */
         .navegacao-data {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 15px 0;
-            background: #f0f2f5;
-            padding: 10px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            padding: 12px;
             border-radius: 15px;
+            flex-wrap: wrap;
         }
-        
+
         .btn-nav {
-            background: #667eea;
+            background: var(--primary);
             color: white;
             border: none;
             width: 35px;
@@ -51,215 +269,157 @@
             border-radius: 50%;
             cursor: pointer;
             font-size: 18px;
+            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.3s;
         }
-        
+
         .btn-nav:hover {
-            background: #764ba2;
+            background: var(--primary-dark);
             transform: scale(1.1);
         }
-        
+
         .data-display {
             font-weight: bold;
             font-size: 16px;
             min-width: 200px;
             text-align: center;
-            color: #333;
         }
-        
+
+        .btn-hoje, .btn-calendario {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
         .btn-hoje {
-            background: #27AE60;
+            background: var(--success);
             color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
         }
-        
+
         .btn-calendario {
-            background: #F39C12;
+            background: var(--warning);
             color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
         }
-        
-        /* Calendário popup */
-        .calendario-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
+
+        /* IA Section Melhorada */
+        .ia-section {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            z-index: 1000;
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            border-image: linear-gradient(135deg, var(--primary), var(--primary-dark)) 1;
         }
-        
-        .calendario-popup.mostrar {
-            display: block;
-        }
-        
-        .calendario-popup input {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            margin: 10px 0;
-            width: 100%;
-        }
-        
-        .calendario-popup button {
-            margin: 5px;
-            padding: 10px 20px;
-        }
-        
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-        
-        .overlay.mostrar {
-            display: block;
-        }
-        
-        /* Indicador de dia */
-        .indicador-dia {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .dia-semana {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 15px;
-            font-weight: bold;
-        }
-        
-        .hoje { background: #d4edda; color: #155724; }
-        .passado { background: #e2e3e5; color: #383d41; }
-        .futuro { background: #d1ecf1; color: #0c5460; }
-        
-        /* API Config */
-        .api-config {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ffc107;
-        }
-        
-        .api-config summary {
-            cursor: pointer;
-            font-weight: bold;
-            color: #856404;
-        }
-        
-        .api-config input {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        
-        .api-config button {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-        
-        /* IA Section */
-        .ia-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 15px;
-            border-radius: 12px;
+
+        .ia-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 15px;
         }
-        
-        .ia-section h3 {
+
+        .ia-icon {
+            font-size: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .ia-input-group {
+            display: flex;
+            gap: 10px;
             margin-bottom: 10px;
-            color: #333;
-            font-size: 16px;
         }
-        
-        .ia-input {
+
+        .ia-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .ia-suggestions {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
-        
-        .ia-input input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+
+        .ia-suggestion {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            transition: 0.3s;
         }
-        
+
+        .ia-suggestion:hover {
+            background: var(--primary);
+            color: white;
+        }
+
         .btn-ia {
-            background: #667eea;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 25px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s;
             white-space: nowrap;
         }
-        
+
+        .btn-ia:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
         .btn-ia:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
-        
+
         /* Formulário */
         .form-group {
             display: flex;
             gap: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        
+
         input, select {
-            padding: 10px;
-            border: 2px solid #e0e0e0;
+            padding: 12px;
+            border: 2px solid var(--border);
             border-radius: 10px;
             font-size: 14px;
+            transition: 0.3s;
         }
-        
+
         input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
-        input[type="text"] {
-            flex: 1;
-            min-width: 140px;
-        }
-        
+
+        input[type="text"] { flex: 1; min-width: 140px; }
+
         button {
-            padding: 10px 18px;
+            padding: 12px 20px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -267,177 +427,88 @@
             color: white;
             transition: 0.3s;
         }
-        
+
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        
-        .btn-adicionar { background: #4A90E2; }
-        
-        /* Estatísticas do dia */
-        .stats {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            justify-content: center;
-        }
-        
-        .stat {
-            background: #f8f9fa;
-            padding: 10px 15px;
-            border-radius: 10px;
-            text-align: center;
-            flex: 1;
-        }
-        
-        .stat-valor {
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: #666;
-            margin-top: 3px;
-        }
-        
-        /* Lista de atividades */
+
+        .btn-adicionar { background: var(--primary); }
+
+        /* Atividades */
         .atividade {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
+            padding: 15px;
             margin-bottom: 8px;
             background: #f8f9fa;
             border-radius: 12px;
-            border-left: 5px solid #4A90E2;
+            border-left: 5px solid var(--primary);
             animation: slideIn 0.3s ease;
             transition: 0.3s;
         }
-        
+
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        
+
         .atividade.concluida {
             opacity: 0.6;
             text-decoration: line-through;
-            border-left-color: #27AE60;
+            border-left-color: var(--success);
             background: #f0faf3;
         }
-        
+
         .atividade.atrasada {
-            border-left-color: #E74C3C;
+            border-left-color: var(--danger);
             background: #fef5f5;
         }
-        
-        .info {
-            flex: 1;
+
+        .atividade.futura {
+            border-left-color: #3498db;
+            background: #f0f8ff;
         }
-        
+
+        .info { flex: 1; }
+
         .nome {
             font-weight: bold;
             margin-bottom: 3px;
             font-size: 15px;
         }
-        
+
         .detalhes {
             font-size: 12px;
-            color: #666;
+            color: var(--text-light);
         }
-        
-        .status {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-left: 5px;
-        }
-        
-        .status-feito { background: #d4edda; color: #155724; }
-        .status-pendente { background: #fff3cd; color: #856404; }
-        .status-atrasado { background: #f8d7da; color: #721c24; }
-        
+
         .acoes button {
             padding: 6px 10px;
             margin-left: 3px;
             font-size: 16px;
         }
-        
-        .btn-concluir { background: #27AE60; }
-        .btn-remover { background: #E74C3C; }
-        
+
+        .btn-concluir { background: var(--success); }
+        .btn-remover { background: var(--danger); }
+        .btn-editar { background: var(--warning); }
+
         .vazio {
             text-align: center;
             padding: 40px;
             color: #999;
         }
-        
-        /* Footer */
-        .footer {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .btn-limpar { background: #E74C3C; font-size: 13px; }
-        .btn-exportar { background: #F39C12; font-size: 13px; }
-        .btn-historico { background: #8E44AD; font-size: 13px; }
-        
-        /* Histórico */
-        .historico-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            z-index: 1000;
-            max-width: 500px;
-            width: 90%;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .historico-popup.mostrar {
-            display: block;
-        }
-        
-        .historico-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: #f8f9fa;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .historico-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-        
+
+        /* Loading e Erros */
         .loading {
             text-align: center;
             padding: 10px;
-            color: #667eea;
+            color: var(--primary);
             display: none;
         }
-        
-        .loading.mostrar {
-            display: block;
-        }
-        
+
+        .loading.show { display: block; }
+
         .erro {
             background: #f8d7da;
             color: #721c24;
@@ -446,252 +517,344 @@
             margin: 10px 0;
             display: none;
         }
-        
-        .erro.mostrar {
-            display: block;
+
+        .erro.show { display: block; }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
-        
-        @media (max-width: 600px) {
-            .container { padding: 15px; }
-            .ia-input { flex-direction: column; }
-            .navegacao-data { flex-wrap: wrap; }
-            .stats { flex-direction: column; }
+
+        .btn-limpar { background: var(--danger); font-size: 13px; }
+        .btn-exportar { background: var(--warning); font-size: 13px; }
+
+        /* Calendário popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1001;
+        }
+
+        .popup.show { display: block; }
+
+        .popup input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 10px;
+                padding-left: 60px;
+            }
+            
+            .menu-toggle {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📅 Minha Rotina</h1>
-        
-        <!-- Navegação de datas -->
-        <div class="navegacao-data">
-            <button class="btn-nav" onclick="mudarDia(-1)" title="Dia anterior">◀</button>
-            <div class="data-display" id="dataDisplay"></div>
-            <button class="btn-nav" onclick="mudarDia(1)" title="Próximo dia">▶</button>
-            <button class="btn-hoje" onclick="irParaHoje()">Hoje</button>
-            <button class="btn-calendario" onclick="abrirCalendario()">📆</button>
+    <!-- Botão Menu -->
+    <button class="menu-toggle" onclick="toggleMenu()" title="Menu">☰</button>
+
+    <!-- Overlay Menu -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
+
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>📋 Menu</h2>
+            <button class="sidebar-close" onclick="toggleMenu()">✕</button>
         </div>
-        
-        <div class="indicador-dia" id="indicadorDia"></div>
-        
-        <!-- Estatísticas -->
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-valor" id="totalAtividades">0</div>
-                <div class="stat-label">Atividades</div>
+
+        <div class="menu-section">
+            <h3>📅 Navegação</h3>
+            <div class="menu-item active" onclick="irParaHoje(); toggleMenu();">
+                <span class="icon">🏠</span> Hoje
             </div>
-            <div class="stat">
-                <div class="stat-valor" id="totalConcluidas">0</div>
-                <div class="stat-label">Concluídas</div>
-            </div>
-            <div class="stat">
-                <div class="stat-valor" id="totalTempo">0min</div>
-                <div class="stat-label">Tempo Total</div>
+            <div class="menu-item" onclick="abrirCalendario(); toggleMenu();">
+                <span class="icon">📆</span> Escolher Data
             </div>
         </div>
-        
-        <!-- Config API -->
-        <details class="api-config">
-            <summary>⚙️ API Gemini</summary>
-            <input type="password" id="apiKeyInput" placeholder="API Key (AIzaSy...)">
-            <div style="margin-top: 8px;">
-                <button onclick="salvarAPIKey()">💾 Salvar</button>
-                <button onclick="testarAPI()" style="background: #17a2b8;">🔍 Testar</button>
+
+        <div class="menu-section">
+            <h3>📊 Relatório Rápido</h3>
+            <div class="mini-relatorio" id="miniRelatorio">
+                <h4>Últimos 7 dias</h4>
+                <div class="relatorio-stat">
+                    <span>📅 Dias com rotina:</span>
+                    <strong id="rDiasAtivos">0/7</strong>
+                </div>
+                <div class="relatorio-stat">
+                    <span>✅ Média conclusão:</span>
+                    <strong id="rMediaConclusao">0%</strong>
+                </div>
+                <div class="relatorio-stat">
+                    <span>📝 Total atividades:</span>
+                    <strong id="rTotalAtividades">0</strong>
+                </div>
+                <div class="relatorio-stat">
+                    <span>⏱️ Média tempo/dia:</span>
+                    <strong id="rMediaTempo">0min</strong>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="rProgressBar" style="width: 0%"></div>
+                </div>
+                <small style="color: #666; display: block; margin-top: 5px;">Taxa de conclusão semanal</small>
             </div>
-            <p id="statusAPI" style="font-size: 13px; margin-top: 5px;"></p>
-        </details>
-        
-        <!-- IA -->
-        <div class="ia-section">
-            <h3>🤖 Assistente IA</h3>
-            <div class="ia-input">
-                <input type="text" id="promptIA" placeholder="Ex: rotina de sábado produtivo">
-                <button class="btn-ia" onclick="gerarRotina()" id="btnGerar">✨ Gerar</button>
+        </div>
+
+        <div class="menu-section">
+            <h3>⚙️ Configurações</h3>
+            <div class="config-api">
+                <strong>🤖 API Gemini</strong>
+                <input type="password" id="apiKeyInput" placeholder="Cole sua API Key">
+                <div style="margin-top: 8px;">
+                    <button onclick="salvarAPIKey()">💾 Salvar</button>
+                    <button onclick="testarAPI()" style="background: #17a2b8;">🔍 Testar</button>
+                </div>
+                <p id="statusAPI" style="font-size: 12px; margin-top: 5px;"></p>
+                <small style="display: block; margin-top: 5px;">
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank">Obter chave gratuita</a>
+                </small>
             </div>
-            <div class="loading" id="loading">⏳ IA pensando...</div>
-            <div class="erro" id="erroMsg"></div>
-        </div>
-        
-        <!-- Formulário -->
-        <div class="form-group">
-            <input type="text" id="nome" placeholder="Atividade">
-            <input type="time" id="hora">
-            <input type="number" id="duracao" placeholder="Min" min="1" value="30" style="width: 65px;">
-            <button class="btn-adicionar" onclick="adicionar()">➕</button>
-        </div>
-        
-        <!-- Lista -->
-        <div id="lista"></div>
-        
-        <!-- Footer -->
-        <div class="footer">
-            <button class="btn-historico" onclick="abrirHistorico()">📋 Histórico</button>
-            <button class="btn-exportar" onclick="exportarDados()">📥 Exportar</button>
-            <button class="btn-limpar" onclick="limparDia()">🗑️ Limpar dia</button>
         </div>
     </div>
-    
-    <!-- Overlay para popups -->
-    <div class="overlay" id="overlay"></div>
-    
+
+    <!-- Conteúdo Principal -->
+    <div class="main-container">
+        <div class="container">
+            <h1>📅 Daily Planner Pro</h1>
+            
+            <!-- Navegação de Datas -->
+            <div class="navegacao-data">
+                <button class="btn-nav" onclick="mudarDia(-1)">◀</button>
+                <div class="data-display" id="dataDisplay"></div>
+                <button class="btn-nav" onclick="mudarDia(1)">▶</button>
+                <button class="btn-hoje" onclick="irParaHoje()">📍 Hoje</button>
+                <button class="btn-calendario" onclick="abrirCalendario()">📆 Data</button>
+            </div>
+            
+            <!-- IA Section -->
+            <div class="ia-section">
+                <div class="ia-header">
+                    <span class="ia-icon">🤖</span>
+                    <div>
+                        <strong>Assistente IA</strong>
+                        <p style="font-size: 12px; color: #666;">Deixe a IA montar sua rotina</p>
+                    </div>
+                </div>
+                <div class="ia-input-group">
+                    <input type="text" id="promptIA" placeholder="Ex: rotina de sábado produtivo com exercícios">
+                    <button class="btn-ia" onclick="gerarRotina()" id="btnGerar">✨ Gerar</button>
+                </div>
+                <div class="ia-suggestions">
+                    <span class="ia-suggestion" onclick="preencherPrompt('dia de trabalho focado')">💼 Trabalho</span>
+                    <span class="ia-suggestion" onclick="preencherPrompt('rotina de estudos intensiva')">📚 Estudos</span>
+                    <span class="ia-suggestion" onclick="preencherPrompt('dia de autocuidado e saúde')">💪 Saúde</span>
+                    <span class="ia-suggestion" onclick="preencherPrompt('domingo relaxante e lazer')">🎮 Lazer</span>
+                    <span class="ia-suggestion" onclick="preencherPrompt('rotina matinal produtiva')">🌅 Manhã</span>
+                </div>
+                <div class="loading" id="loading">⏳ IA criando sua rotina perfeita...</div>
+                <div class="erro" id="erroMsg"></div>
+            </div>
+            
+            <!-- Formulário -->
+            <div class="form-group">
+                <input type="text" id="nome" placeholder="Nova atividade">
+                <input type="time" id="hora">
+                <input type="number" id="duracao" placeholder="Min" min="1" value="30" style="width: 70px;">
+                <select id="categoria" style="width: 120px;">
+                    <option value="geral">📌 Geral</option>
+                    <option value="trabalho">💼 Trabalho</option>
+                    <option value="estudo">📚 Estudo</option>
+                    <option value="saude">💪 Saúde</option>
+                    <option value="lazer">🎮 Lazer</option>
+                    <option value="casa">🏠 Casa</option>
+                </select>
+                <button class="btn-adicionar" onclick="adicionar()">➕ Adicionar</button>
+            </div>
+            
+            <!-- Lista de Atividades -->
+            <div id="lista"></div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <button class="btn-limpar" onclick="limparDia()">🗑️ Limpar dia</button>
+                <button class="btn-exportar" onclick="exportarDados()">📥 Exportar</button>
+                <button onclick="copiarRotina()" style="background: #3498db;">📋 Copiar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Popup Calendário -->
-    <div class="calendario-popup" id="calendarioPopup">
-        <h3>📆 Escolher data</h3>
+    <div class="popup" id="calendarioPopup">
+        <h3>📆 Selecionar Data</h3>
         <input type="date" id="inputData">
-        <div style="text-align: center; margin-top: 10px;">
-            <button onclick="selecionarData()" style="background: #667eea;">✅ Ir para data</button>
-            <button onclick="fecharCalendario()" style="background: #999;">Cancelar</button>
-        </div>
-    </div>
-    
-    <!-- Popup Histórico -->
-    <div class="historico-popup" id="historicoPopup">
-        <h3>📋 Histórico de Rotinas</h3>
-        <div id="historicoLista"></div>
-        <div style="text-align: center; margin-top: 15px;">
-            <button onclick="fecharHistorico()" style="background: #999;">Fechar</button>
+        <div class="popup-actions">
+            <button onclick="selecionarData()" style="background: var(--primary);">✅ Ir para data</button>
+            <button onclick="fecharPopup('calendarioPopup')" style="background: #999;">Cancelar</button>
         </div>
     </div>
 
     <script>
         // ============ VARIÁVEIS GLOBAIS ============
         let API_KEY = localStorage.getItem('gemini_api_key') || '';
-        let dataSelecionada = new Date(); // Data atual sendo visualizada
-        let hoje = new Date(); // Hoje de verdade
-        
+        let dataSelecionada = new Date();
+        let atividadesDia = [];
+
         // ============ INICIALIZAÇÃO ============
         function init() {
-            // Carregar chave API
             if (API_KEY) {
                 document.getElementById('apiKeyInput').value = API_KEY;
-                document.getElementById('statusAPI').textContent = '✅ Chave configurada';
+                document.getElementById('statusAPI').textContent = '✅ Conectado';
                 document.getElementById('statusAPI').style.color = 'green';
             }
             
-            // Iniciar com hoje
             atualizarDataDisplay();
             carregarAtividades();
+            atualizarMiniRelatorio();
             
-            // Atualizar a cada minuto (para indicadores de atraso)
-            setInterval(() => {
-                if (mesmoDia(dataSelecionada, new Date())) {
-                    renderizarAtividades();
-                }
-            }, 60000);
+            // Atualizar relatório a cada 30 segundos
+            setInterval(atualizarMiniRelatorio, 30000);
         }
-        
-        // ============ GERENCIAMENTO DE DATAS ============
+
+        // ============ MENU ============
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+
+        // ============ NAVEGAÇÃO DE DATAS ============
         function formatarData(data) {
-            return data.toISOString().split('T')[0]; // YYYY-MM-DD
+            return data.toISOString().split('T')[0];
         }
-        
-        function mesmoDia(data1, data2) {
-            return formatarData(data1) === formatarData(data2);
-        }
-        
+
         function mudarDia(dias) {
             dataSelecionada.setDate(dataSelecionada.getDate() + dias);
             atualizarDataDisplay();
             carregarAtividades();
         }
-        
+
         function irParaHoje() {
             dataSelecionada = new Date();
             atualizarDataDisplay();
             carregarAtividades();
         }
-        
+
         function abrirCalendario() {
-            document.getElementById('calendarioPopup').classList.add('mostrar');
-            document.getElementById('overlay').classList.add('mostrar');
+            document.getElementById('calendarioPopup').classList.add('show');
             document.getElementById('inputData').value = formatarData(dataSelecionada);
         }
-        
-        function fecharCalendario() {
-            document.getElementById('calendarioPopup').classList.remove('mostrar');
-            document.getElementById('overlay').classList.remove('mostrar');
+
+        function fecharPopup(id) {
+            document.getElementById(id).classList.remove('show');
         }
-        
+
         function selecionarData() {
             const novaData = document.getElementById('inputData').value;
             if (novaData) {
-                dataSelecionada = new Date(novaData + 'T00:00:00');
+                dataSelecionada = new Date(novaData + 'T12:00:00');
                 atualizarDataDisplay();
                 carregarAtividades();
             }
-            fecharCalendario();
+            fecharPopup('calendarioPopup');
         }
-        
+
         function atualizarDataDisplay() {
-            const opcoes = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
+            const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const display = document.getElementById('dataDisplay');
+            const dataFormatada = dataSelecionada.toLocaleDateString('pt-BR', opcoes);
             
-            document.getElementById('dataDisplay').textContent = 
-                dataSelecionada.toLocaleDateString('pt-BR', opcoes);
-            
-            // Indicador visual
-            const indicador = document.getElementById('indicadorDia');
-            const hojeDate = new Date();
-            
-            if (mesmoDia(dataSelecionada, hojeDate)) {
-                indicador.innerHTML = '<span class="dia-semana hoje">📌 HOJE</span>';
-            } else if (dataSelecionada < hojeDate) {
-                indicador.innerHTML = '<span class="dia-semana passado">📅 Data passada</span>';
+            const hoje = new Date();
+            if (formatarData(dataSelecionada) === formatarData(hoje)) {
+                display.textContent = '📍 HOJE - ' + dataFormatada;
+            } else if (dataSelecionada > hoje) {
+                display.textContent = '🔮 ' + dataFormatada + ' (futuro)';
             } else {
-                indicador.innerHTML = '<span class="dia-semana futuro">🔮 Data futura</span>';
+                display.textContent = '📅 ' + dataFormatada + ' (passado)';
             }
         }
-        
-        // ============ GERENCIAMENTO DE DADOS ============
+
+        // ============ DADOS ============
         function getStorageKey() {
             return 'rotina_' + formatarData(dataSelecionada);
         }
-        
+
         function carregarAtividades() {
             const dados = localStorage.getItem(getStorageKey());
-            const atividades = dados ? JSON.parse(dados) : [];
-            window.atividades = atividades; // Variável global para o dia atual
+            atividadesDia = dados ? JSON.parse(dados) : [];
             renderizarAtividades();
         }
-        
+
         function salvarAtividades() {
-            localStorage.setItem(getStorageKey(), JSON.stringify(window.atividades));
+            localStorage.setItem(getStorageKey(), JSON.stringify(atividadesDia));
+            atualizarMiniRelatorio();
         }
-        
+
         // ============ OPERAÇÕES ============
         function adicionar() {
             const nome = document.getElementById('nome').value.trim();
             const hora = document.getElementById('hora').value;
             const duracao = document.getElementById('duracao').value;
+            const categoria = document.getElementById('categoria').value;
             
             if (!nome || !hora || !duracao) {
-                alert('Preencha todos os campos!');
+                alert('⚠️ Preencha todos os campos!');
                 return;
             }
             
-            window.atividades.push({
+            atividadesDia.push({
                 id: Date.now() + Math.random(),
                 nome: nome,
                 hora: hora,
                 duracao: parseInt(duracao),
+                categoria: categoria,
                 concluida: false,
-                criadaEm: new Date().toISOString()
+                criadaEm: new Date().toISOString(),
+                dataProgramada: formatarData(dataSelecionada)
             });
             
-            window.atividades.sort((a, b) => a.hora.localeCompare(b.hora));
+            atividadesDia.sort((a, b) => a.hora.localeCompare(b.hora));
             salvarAtividades();
             renderizarAtividades();
             
             document.getElementById('nome').value = '';
             document.getElementById('nome').focus();
         }
-        
+
         function toggle(id) {
-            const atividade = window.atividades.find(a => a.id === id);
+            const atividade = atividadesDia.find(a => a.id === id);
             if (atividade) {
                 atividade.concluida = !atividade.concluida;
                 atividade.concluidaEm = atividade.concluida ? new Date().toISOString() : null;
@@ -699,180 +862,145 @@
                 renderizarAtividades();
             }
         }
-        
+
         function remover(id) {
-            if (confirm('Remover esta atividade?')) {
-                window.atividades = window.atividades.filter(a => a.id !== id);
+            if (confirm('🗑️ Remover esta atividade?')) {
+                atividadesDia = atividadesDia.filter(a => a.id !== id);
                 salvarAtividades();
                 renderizarAtividades();
             }
         }
-        
+
         function limparDia() {
-            if (window.atividades.length === 0) {
-                alert('Nada para limpar!');
+            if (atividadesDia.length === 0) {
+                alert('📭 Nada para limpar!');
                 return;
             }
-            if (confirm('Apagar TODAS as atividades desta data?')) {
-                window.atividades = [];
+            if (confirm('⚠️ Apagar TODAS as atividades desta data?')) {
+                atividadesDia = [];
                 salvarAtividades();
                 renderizarAtividades();
             }
         }
-        
+
+        function copiarRotina() {
+            if (atividadesDia.length === 0) {
+                alert('📭 Nada para copiar!');
+                return;
+            }
+            
+            const texto = atividadesDia.map(a => 
+                `${a.concluida ? '✅' : '⏳'} ${a.hora} - ${a.nome} (${a.duracao}min)`
+            ).join('\n');
+            
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('📋 Rotina copiada!');
+            });
+        }
+
         // ============ RENDERIZAÇÃO ============
         function renderizarAtividades() {
             const lista = document.getElementById('lista');
             const agora = new Date();
-            const horaAtual = `${String(agora.getHours()).padStart(2, '0')}:${String(agora.getMinutes()).padStart(2, '0')}`;
+            const horaAtual = agora.getHours() * 60 + agora.getMinutes();
+            const dataHoje = formatarData(agora);
+            const dataVisualizada = formatarData(dataSelecionada);
             
-            // Atualizar estatísticas
-            const total = window.atividades.length;
-            const concluidas = window.atividades.filter(a => a.concluida).length;
-            const tempoTotal = window.atividades.reduce((soma, a) => soma + a.duracao, 0);
-            const horas = Math.floor(tempoTotal / 60);
-            const minutos = tempoTotal % 60;
-            const tempoFormatado = horas > 0 ? `${horas}h${minutos}min` : `${minutos}min`;
-            
-            document.getElementById('totalAtividades').textContent = total;
-            document.getElementById('totalConcluidas').textContent = concluidas;
-            document.getElementById('totalTempo').textContent = tempoFormatado;
-            
-            if (total === 0) {
-                lista.innerHTML = `
-                    <p class="vazio">
-                        ✨ Nenhuma atividade para este dia<br>
-                        <small>Adicione manualmente ou peça ajuda da IA!</small>
-                    </p>`;
+            if (atividadesDia.length === 0) {
+                const mensagem = dataVisualizada > dataHoje ? 
+                    '✨ Planeje seu dia futuro! Adicione atividades.' :
+                    dataVisualizada < dataHoje ?
+                    '📭 Nenhuma atividade registrada neste dia.' :
+                    '✨ Nenhuma atividade hoje. Comece a planejar!';
+                
+                lista.innerHTML = `<p class="vazio">${mensagem}</p>`;
                 return;
             }
             
-            const ehHoje = mesmoDia(dataSelecionada, new Date());
-            
-            lista.innerHTML = window.atividades.map(a => {
+            lista.innerHTML = atividadesDia.map(a => {
+                const [h, m] = a.hora.split(':').map(Number);
+                const minutosAtividade = h * 60 + m;
                 let classeExtra = '';
-                let statusHTML = '';
                 
                 if (a.concluida) {
                     classeExtra = 'concluida';
-                    statusHTML = '<span class="status status-feito">✅ Feito</span>';
-                } else if (ehHoje && a.hora < horaAtual) {
+                } else if (dataVisualizada === dataHoje && minutosAtividade < horaAtual) {
                     classeExtra = 'atrasada';
-                    statusHTML = '<span class="status status-atrasado">⚠️ Atrasada</span>';
-                } else {
-                    statusHTML = '<span class="status status-pendente">⏳ Pendente</span>';
+                } else if (dataVisualizada > dataHoje) {
+                    classeExtra = 'futura';
                 }
+                
+                const icones = {
+                    trabalho: '💼', estudo: '📚', saude: '💪',
+                    lazer: '🎮', casa: '🏠', geral: '📌'
+                };
+                const icon = icones[a.categoria] || '📌';
                 
                 return `
                     <div class="atividade ${classeExtra}">
                         <div class="info">
-                            <div class="nome">${a.nome} ${statusHTML}</div>
+                            <div class="nome">${icon} ${a.nome}</div>
                             <div class="detalhes">
                                 🕐 ${a.hora} | ⏱️ ${a.duracao} min
-                                ${a.concluida && a.concluidaEm ? ' | ✅ ' + new Date(a.concluidaEm).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : ''}
+                                ${a.concluida ? ' | ✅ Concluída' : 
+                                  classeExtra === 'atrasada' ? ' | ⚠️ Atrasada' : 
+                                  classeExtra === 'futura' ? ' | 📅 Programada' : ' | ⏳ Pendente'}
                             </div>
                         </div>
                         <div class="acoes">
-                            <button class="btn-concluir" onclick="toggle(${a.id})">
+                            <button class="btn-concluir" onclick="toggle(${a.id})" title="Concluir/Reabrir">
                                 ${a.concluida ? '↩️' : '✅'}
                             </button>
-                            <button class="btn-remover" onclick="remover(${a.id})">🗑️</button>
+                            <button class="btn-remover" onclick="remover(${a.id})" title="Remover">🗑️</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
-        
-        // ============ HISTÓRICO ============
-        function abrirHistorico() {
-            const historicoDiv = document.getElementById('historicoLista');
-            const datas = [];
+
+        // ============ MINI RELATÓRIO ============
+        function atualizarMiniRelatorio() {
+            const hoje = new Date();
+            let diasAtivos = 0;
+            let totalConclusao = 0;
+            let totalAtividades = 0;
+            let totalTempo = 0;
             
-            // Buscar todas as datas que têm rotina salva
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith('rotina_')) {
-                    const dataStr = key.replace('rotina_', '');
-                    const atividades = JSON.parse(localStorage.getItem(key) || '[]');
+            // Analisar últimos 7 dias
+            for (let i = 6; i >= 0; i--) {
+                const data = new Date(hoje);
+                data.setDate(data.getDate() - i);
+                const key = 'rotina_' + formatarData(data);
+                const atividades = JSON.parse(localStorage.getItem(key) || '[]');
+                
+                if (atividades.length > 0) {
+                    diasAtivos++;
+                    totalAtividades += atividades.length;
+                    totalTempo += atividades.reduce((s, a) => s + a.duracao, 0);
+                    
                     const concluidas = atividades.filter(a => a.concluida).length;
-                    datas.push({
-                        data: dataStr,
-                        total: atividades.length,
-                        concluidas: concluidas
-                    });
+                    totalConclusao += atividades.length > 0 ? 
+                        (concluidas / atividades.length) * 100 : 0;
                 }
             }
             
-            // Ordenar por data (mais recente primeiro)
-            datas.sort((a, b) => b.data.localeCompare(a.data));
+            const mediaConclusao = diasAtivos > 0 ? 
+                Math.round(totalConclusao / diasAtivos) : 0;
+            const mediaTempo = diasAtivos > 0 ? 
+                Math.round(totalTempo / diasAtivos) : 0;
             
-            if (datas.length === 0) {
-                historicoDiv.innerHTML = '<p style="text-align:center; color:#999;">Nenhuma rotina salva ainda</p>';
-            } else {
-                historicoDiv.innerHTML = datas.map(d => {
-                    const dataObj = new Date(d.data + 'T00:00:00');
-                    const dataFormatada = dataObj.toLocaleDateString('pt-BR', {
-                        weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric'
-                    });
-                    const percentual = d.total > 0 ? Math.round((d.concluidas / d.total) * 100) : 0;
-                    const barraCor = percentual === 100 ? '#27AE60' : percentual >= 50 ? '#F39C12' : '#E74C3C';
-                    
-                    return `
-                        <div class="historico-item" onclick="irParaData('${d.data}')">
-                            <div>
-                                <strong>${dataFormatada}</strong><br>
-                                <small>${d.total} atividades</small>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-weight: bold; color: ${barraCor};">
-                                    ${d.concluidas}/${d.total}
-                                </div>
-                                <small>${percentual}% concluído</small>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-            
-            document.getElementById('historicoPopup').classList.add('mostrar');
-            document.getElementById('overlay').classList.add('mostrar');
+            document.getElementById('rDiasAtivos').textContent = `${diasAtivos}/7`;
+            document.getElementById('rMediaConclusao').textContent = `${mediaConclusao}%`;
+            document.getElementById('rTotalAtividades').textContent = totalAtividades;
+            document.getElementById('rMediaTempo').textContent = `${mediaTempo}min`;
+            document.getElementById('rProgressBar').style.width = mediaConclusao + '%';
         }
-        
-        function fecharHistorico() {
-            document.getElementById('historicoPopup').classList.remove('mostrar');
-            document.getElementById('overlay').classList.remove('mostrar');
+
+        // ============ IA ============
+        function preencherPrompt(texto) {
+            document.getElementById('promptIA').value = texto;
         }
-        
-        function irParaData(dataStr) {
-            dataSelecionada = new Date(dataStr + 'T00:00:00');
-            atualizarDataDisplay();
-            carregarAtividades();
-            fecharHistorico();
-        }
-        
-        // ============ EXPORTAÇÃO ============
-        function exportarDados() {
-            if (window.atividades.length === 0) {
-                alert('Nada para exportar nesta data!');
-                return;
-            }
-            
-            const dados = {
-                data: formatarData(dataSelecionada),
-                atividades: window.atividades,
-                exportadoEm: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `rotina_${formatarData(dataSelecionada)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-        
-        // ============ FUNÇÕES IA ============
+
         function salvarAPIKey() {
             const key = document.getElementById('apiKeyInput').value.trim();
             if (!key) {
@@ -880,15 +1008,16 @@
                 return;
             }
             if (!key.startsWith('AIza')) {
-                alert('❌ Chave inválida!');
+                alert('❌ Chave inválida! Deve começar com AIza');
                 return;
             }
             API_KEY = key;
             localStorage.setItem('gemini_api_key', key);
-            document.getElementById('statusAPI').textContent = '✅ Chave salva!';
+            document.getElementById('statusAPI').textContent = '✅ Conectado!';
             document.getElementById('statusAPI').style.color = 'green';
+            alert('✅ Chave salva com sucesso!');
         }
-        
+
         async function testarAPI() {
             const key = document.getElementById('apiKeyInput').value || API_KEY;
             if (!key) {
@@ -898,6 +1027,7 @@
             
             const statusEl = document.getElementById('statusAPI');
             statusEl.textContent = '🔍 Testando...';
+            statusEl.style.color = 'blue';
             
             try {
                 const response = await fetch(
@@ -906,128 +1036,17 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            contents: [{ parts: [{ text: "Responda: OK" }] }]
+                            contents: [{ parts: [{ text: "Responda: FUNCIONANDO" }] }]
                         })
                     }
                 );
                 
                 if (response.ok) {
-                    statusEl.textContent = '✅ API funcionando!';
+                    statusEl.textContent = '✅ Funcionando!';
                     statusEl.style.color = 'green';
-                    alert('✅ API funcionando perfeitamente!');
+                    alert('✅ API conectada com sucesso!');
                 } else {
-                    throw new Error('Erro na API');
+                    throw new Error('Falha na API');
                 }
             } catch (erro) {
-                statusEl.textContent = '❌ Erro na conexão';
-                statusEl.style.color = 'red';
-                alert('❌ Erro: ' + erro.message);
-            }
-        }
-        
-        async function gerarRotina() {
-            const prompt = document.getElementById('promptIA').value.trim();
-            
-            if (!API_KEY) {
-                alert('Configure a chave API primeiro!');
-                return;
-            }
-            
-            if (!prompt) {
-                alert('Digite que tipo de rotina você quer!');
-                return;
-            }
-            
-            const btnGerar = document.getElementById('btnGerar');
-            const loading = document.getElementById('loading');
-            const erroEl = document.getElementById('erroMsg');
-            
-            btnGerar.disabled = true;
-            loading.classList.add('mostrar');
-            erroEl.classList.remove('mostrar');
-            
-            try {
-                const dataFormatada = dataSelecionada.toLocaleDateString('pt-BR', { weekday: 'long' });
-                
-                const response = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
-                    {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{
-                                    text: `Crie uma rotina para ${dataFormatada} com o tema: "${prompt}"
-                                    
-Retorne APENAS um JSON com 4-6 atividades. Formato:
-[
-  {"nome": "Atividade", "hora": "HH:mm", "duracao": minutos}
-]
-
-Regras:
-- Horários em formato 24h
-- Duração entre 15 e 120 minutos
-- Distribua ao longo do dia
-- Seja realista e prático
-- Considere que é ${dataFormatada}`
-                                }]
-                            }]
-                        })
-                    }
-                );
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || 'Erro na API');
-                }
-                
-                const data = await response.json();
-                const texto = data.candidates[0].content.parts[0].text;
-                const jsonMatch = texto.match(/\[[\s\S]*\]/);
-                
-                if (!jsonMatch) throw new Error('Resposta inválida da IA');
-                
-                const sugestoes = JSON.parse(jsonMatch[0]);
-                
-                const resumo = sugestoes.map(a => 
-                    `• ${a.nome} às ${a.hora} (${a.duracao}min)`
-                ).join('\n');
-                
-                if (confirm(`🤖 IA sugere para ${dataFormatada}:\n\n${resumo}\n\nAdicionar à rotina?`)) {
-                    sugestoes.forEach(atv => {
-                        window.atividades.push({
-                            id: Date.now() + Math.random(),
-                            nome: atv.nome,
-                            hora: atv.hora,
-                            duracao: atv.duracao,
-                            concluida: false,
-                            criadaEm: new Date().toISOString(),
-                            criadaPorIA: true
-                        });
-                    });
-                    
-                    window.atividades.sort((a, b) => a.hora.localeCompare(b.hora));
-                    salvarAtividades();
-                    renderizarAtividades();
-                    alert(`✨ ${sugestoes.length} atividades adicionadas!`);
-                }
-                
-            } catch (erro) {
-                erroEl.textContent = `❌ ${erro.message}`;
-                erroEl.classList.add('mostrar');
-            } finally {
-                btnGerar.disabled = false;
-                loading.classList.remove('mostrar');
-            }
-        }
-        
-        // ============ EVENTOS ============
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && document.activeElement === document.getElementById('nome')) {
-                e.preventDefault();
-                adicionar();
-            }
-        });
-        
-        document.getElementById('overlay').addEventListener('click', function() {
-            fecharCalendario();
+                statusEl
