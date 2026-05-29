@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Planejador de rotina diária pessoal">
+    <title>Daily Planner - Minha Rotina</title>
+    
+    <!-- CSS Modular -->
+    <link rel="stylesheet" href="src/ui/styles/base.css">
+    <link rel="stylesheet" href="src/ui/styles/themes.css">
+    <link rel="stylesheet" href="src/ui/styles/components.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body data-theme="light">
+    <div id="app">
+        <!-- Renderizado dinamicamente -->
+    </div>
+
+    <!-- Configurações -->
+    <script src="src/config/app.config.js"></script>
+    
+    <!-- Core -->
+    <script type="module" src="src/core/eventBus.js"></script>
+    <script type="module" src="src/core/storage.js"></script>
+    <script type="module" src="src/core/validator.js"></script>
+    
+    <!-- Models -->
+    <script type="module" src="src/models/Atividade.js"></script>
+    <script type="module" src="src/models/Categoria.js"></script>
+    
+    <!-- Services -->
+    <script type="module" src="src/services/atividadeService.js"></script>
+    <script type="module" src="src/services/rotinaService.js"></script>
+    
+    <!-- UI Components -->
+    <script type="module" src="src/ui/components/CardAtividade.js"></script>
+    <script type="module" src="src/ui/components/FormAtividade.js"></script>
+    
+    <!-- UI Views -->
+    <script type="module" src="src/ui/views/HomeView.js"></script>
+    
+    <!-- App Initialization -->
+    <script type="module" src="src/app.js"></script>
+</body>
+</html>
