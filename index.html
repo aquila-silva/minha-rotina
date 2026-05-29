@@ -1,1 +1,266 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daily Planner Pro - Organizador de rotina diária com IA">
+    <title>Daily Planner Pro | Minha Rotina</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navegação Superior -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">📅 Daily Planner Pro</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link active">📋 Planejador</a></li>
+                <li><a href="relatorios.html" class="nav-link">📊 Relatórios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-container">
+        <div class="page-grid sidebar-layout">
+            <!-- Coluna Principal -->
+            <div class="main-content">
+                <!-- Card: Navegação de Datas -->
+                <div class="card mb-20">
+                    <div class="date-navigator">
+                        <button class="btn-nav" onclick="app.mudarDia(-1)" title="Dia anterior">◀</button>
+                        <div class="date-display" id="dataDisplay">Carregando...</div>
+                        <button class="btn-nav" onclick="app.mudarDia(1)" title="Próximo dia">▶</button>
+                        <button class="btn-today" onclick="app.irParaHoje()">📍 Hoje</button>
+                        <button class="btn-date-picker" onclick="app.abrirCalendario()" title="Escolher data">📆</button>
+                    </div>
+                    <div class="text-center mt-10">
+                        <span id="indicadorDia" class="badge badge-today">HOJE</span>
+                    </div>
+                </div>
+
+                <!-- Alertas -->
+                <div class="alert alert-error" id="alertErro"></div>
+                <div class="alert alert-success" id="alertSucesso"></div>
+                <div class="alert alert-loading" id="alertLoading">⏳ Processando...</div>
+
+                <!-- Card: Assistente IA -->
+                <div class="ai-section">
+                    <div class="ai-header">
+                        <span class="ai-icon">🤖</span>
+                        <div>
+                            <strong style="font-size: 18px;">Assistente de Rotina IA</strong>
+                            <p style="font-size: 13px; color: var(--text-light);">Descreva seu dia e a IA monta a rotina perfeita</p>
+                        </div>
+                    </div>
+                    <div class="ai-input-group">
+                        <input type="text" 
+                               id="promptIA" 
+                               class="form-input flex-1" 
+                               placeholder="Ex: Quero uma rotina produtiva de sábado com exercícios, estudos e lazer...">
+                        <button class="btn btn-primary" id="btnGerarIA" onclick="app.gerarRotinaIA()">
+                            ✨ Gerar Rotina
+                        </button>
+                    </div>
+                    <div class="ai-suggestions">
+                        <span class="ai-chip" onclick="app.preencherPrompt('rotina de trabalho focado e produtivo com pausas estratégicas')">💼 Dia Produtivo</span>
+                        <span class="ai-chip" onclick="app.preencherPrompt('rotina de estudos intensiva com revisões e exercícios')">📚 Maratona Estudos</span>
+                        <span class="ai-chip" onclick="app.preencherPrompt('dia de saúde com exercícios, alimentação balanceada e meditação')">💪 Saúde & Bem-estar</span>
+                        <span class="ai-chip" onclick="app.preencherPrompt('domingo relaxante com hobbies, família e descanso')">🎮 Fim de Semana</span>
+                        <span class="ai-chip" onclick="app.preencherPrompt('rotina matinal produtiva começando cedo')">🌅 Rotina Matinal</span>
+                    </div>
+                </div>
+
+                <!-- Card: Formulário de Cadastro -->
+                <div class="card mb-20">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="icon">✍️</span> Cadastrar Atividade
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-row">
+                            <input type="text" 
+                                   id="nomeAtividade" 
+                                   class="form-input flex-1" 
+                                   placeholder="O que você vai fazer?">
+                            <input type="time" 
+                                   id="horaAtividade" 
+                                   class="form-input w-auto" 
+                                   title="Horário da atividade">
+                            <input type="number" 
+                                   id="duracaoAtividade" 
+                                   class="form-input w-80" 
+                                   placeholder="Min" 
+                                   min="1" 
+                                   max="480" 
+                                   value="30">
+                            <select id="categoriaAtividade" class="form-select w-130">
+                                <option value="geral">📌 Geral</option>
+                                <option value="trabalho">💼 Trabalho</option>
+                                <option value="estudo">📚 Estudo</option>
+                                <option value="saude">💪 Saúde</option>
+                                <option value="lazer">🎮 Lazer</option>
+                                <option value="casa">🏠 Casa</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="app.adicionarAtividade()">
+                                ➕ Adicionar
+                            </button>
+                        </div>
+                        <div class="text-muted text-sm mt-10">
+                            💡 Dica: Pressione Enter no campo "O que vai fazer" para adicionar rapidamente
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Lista de Atividades -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="icon">📋</span> Atividades do Dia
+                        </div>
+                        <div id="statsResumo" class="text-sm text-muted"></div>
+                    </div>
+                    <div id="listaAtividades" class="activity-list">
+                        <!-- Renderizado dinamicamente -->
+                    </div>
+                </div>
+
+                <!-- Ações rápidas -->
+                <div class="flex gap-10 justify-center mt-20 flex-wrap">
+                    <button class="btn btn-purple btn-sm" onclick="app.copiarRotina()">
+                        📋 Copiar Lista
+                    </button>
+                    <button class="btn btn-info btn-sm" onclick="app.duplicarDiaAnterior()">
+                        📝 Duplicar Dia Anterior
+                    </button>
+                    <button class="btn btn-warning btn-sm" onclick="app.exportarDia()">
+                        📥 Exportar Dia
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="app.limparDia()">
+                        🗑️ Limpar Dia
+                    </button>
+                </div>
+            </div>
+
+            <!-- Barra Lateral -->
+            <div class="sidebar">
+                <!-- Card: Estatísticas do Dia -->
+                <div class="card mb-20">
+                    <div class="card-title">
+                        <span class="icon">📊</span> Resumo do Dia
+                    </div>
+                    <div class="stats-row" style="grid-template-columns: 1fr 1fr;">
+                        <div class="stat-card">
+                            <div class="stat-value" id="statTotal">0</div>
+                            <div class="stat-label">Total</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="statConcluidas">0</div>
+                            <div class="stat-label">Concluídas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="statPendentes">0</div>
+                            <div class="stat-label">Pendentes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="statTempo">0min</div>
+                            <div class="stat-label">Tempo Total</div>
+                        </div>
+                    </div>
+                    <!-- Barra de progresso -->
+                    <div style="margin-top: 10px;">
+                        <div class="flex justify-between text-sm mb-10">
+                            <span>Progresso</span>
+                            <span id="progressoTexto" class="font-bold">0%</span>
+                        </div>
+                        <div style="background: #e0e0e0; height: 8px; border-radius: 10px; overflow: hidden;">
+                            <div id="progressoBarra" 
+                                 style="height: 100%; background: var(--primary-gradient); border-radius: 10px; transition: width 0.5s ease; width: 0%;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Configuração Rápida -->
+                <div class="card mb-20">
+                    <div class="card-title">
+                        <span class="icon">⚙️</span> Configurações
+                    </div>
+                    <button class="btn btn-primary btn-block btn-sm mb-10" onclick="app.abrirConfigAPI()">
+                        🤖 Configurar API Gemini
+                    </button>
+                    <button class="btn btn-info btn-block btn-sm mb-10" onclick="window.location.href='relatorios.html'">
+                        📊 Ver Relatórios Completos
+                    </button>
+                    <div class="text-sm text-muted mt-10">
+                        <strong>Atalhos:</strong><br>
+                        ← → : Navegar dias<br>
+                        Ctrl+N : Nova atividade<br>
+                        Ctrl+T : Ir para hoje
+                    </div>
+                </div>
+
+                <!-- Card: Visão Semanal Rápida -->
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">📅</span> Visão da Semana
+                    </div>
+                    <div id="visaoSemanal" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;">
+                        <!-- Mini calendário semanal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Calendário -->
+    <div class="overlay" id="overlayCalendario"></div>
+    <div class="modal" id="modalCalendario">
+        <div class="modal-header">
+            <h3 class="modal-title">📆 Selecionar Data</h3>
+            <button class="modal-close" onclick="app.fecharModal('modalCalendario')">✕</button>
+        </div>
+        <input type="date" id="inputDataCalendario" class="form-input" style="width: 100%; font-size: 16px;">
+        <div class="modal-actions">
+            <button class="btn btn-cancelar" onclick="app.fecharModal('modalCalendario')">Cancelar</button>
+            <button class="btn btn-primary" onclick="app.selecionarData()">✅ Ir para Data</button>
+        </div>
+    </div>
+
+    <!-- Modal: Configuração API -->
+    <div class="overlay" id="overlayConfig"></div>
+    <div class="modal" id="modalConfig">
+        <div class="modal-header">
+            <h3 class="modal-title">⚙️ Configurar API Gemini</h3>
+            <button class="modal-close" onclick="app.fecharModal('modalConfig')">✕</button>
+        </div>
+        <p class="text-sm text-muted mb-20">
+            Obtenha sua chave API gratuita em:<br>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary);">
+                Google AI Studio
+            </a>
+        </p>
+        <input type="password" 
+               id="apiKeyInput" 
+               class="form-input" 
+               placeholder="Cole sua API Key (AIzaSy...)" 
+               style="width: 100%;">
+        <div class="modal-actions flex-wrap">
+            <button class="btn btn-success btn-sm" onclick="app.salvarAPIKey()">💾 Salvar Chave</button>
+            <button class="btn btn-info btn-sm" onclick="app.testarAPI()">🔍 Testar Conexão</button>
+            <button class="btn btn-cancelar btn-sm" onclick="app.fecharModal('modalConfig')">Fechar</button>
+        </div>
+        <p id="statusAPIConfig" class="text-sm mt-10"></p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/services.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.app = new DailyPlannerApp();
+        });
+    </script>
+</body>
+</html>
