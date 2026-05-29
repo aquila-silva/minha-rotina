@@ -27,7 +27,6 @@
             text-align: center;
             color: #333;
             margin-bottom: 5px;
-            font-size: 28px;
         }
         
         .data {
@@ -37,67 +36,75 @@
             font-size: 14px;
         }
         
-        .ia-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        .api-config {
+            background: #fff3cd;
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            text-align: center;
+            border: 1px solid #ffc107;
         }
         
-        .ia-section p {
-            font-size: 13px;
-            color: #555;
+        .api-config summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        .api-config input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .api-config button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        
+        .ia-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .ia-section h3 {
             margin-bottom: 10px;
+            color: #333;
         }
         
         .ia-input {
             display: flex;
             gap: 8px;
-            margin-bottom: 10px;
         }
         
         .ia-input input {
             flex: 1;
             padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
         }
         
         .btn-ia {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
-            white-space: nowrap;
-        }
-        
-        .btn-ia:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .btn-ia:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 10px;
-            color: #667eea;
-            font-size: 14px;
-        }
-        
-        .loading.mostrar {
-            display: block;
         }
         
         .form-group {
@@ -107,12 +114,11 @@
             flex-wrap: wrap;
         }
         
-        input, select, button {
+        input {
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 14px;
-            transition: 0.3s;
         }
         
         input:focus {
@@ -120,21 +126,23 @@
             border-color: #667eea;
         }
         
-        input {
+        input[type="text"] {
             flex: 1;
             min-width: 150px;
         }
         
         button {
-            background: #4A90E2;
-            color: white;
+            padding: 12px 20px;
             border: none;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
+            color: white;
+            transition: 0.3s;
         }
         
-        button:hover {
-            background: #357ABD;
+        .btn-adicionar {
+            background: #4A90E2;
         }
         
         .atividade {
@@ -145,19 +153,12 @@
             background: #f8f9fa;
             border-radius: 12px;
             border-left: 5px solid #4A90E2;
-            transition: 0.3s;
             animation: slideIn 0.3s ease;
         }
         
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
         .atividade.concluida {
@@ -173,7 +174,6 @@
         .nome {
             font-weight: bold;
             margin-bottom: 3px;
-            font-size: 16px;
         }
         
         .detalhes {
@@ -184,23 +184,16 @@
         .acoes button {
             padding: 8px 12px;
             margin-left: 5px;
-            font-size: 18px;
-            border-radius: 8px;
+            font-size: 16px;
         }
         
-        .btn-concluir {
-            background: #27AE60;
-        }
-        
-        .btn-remover {
-            background: #E74C3C;
-        }
+        .btn-concluir { background: #27AE60; }
+        .btn-remover { background: #E74C3C; }
         
         .vazio {
             text-align: center;
             padding: 40px;
             color: #999;
-            font-size: 16px;
         }
         
         .footer {
@@ -210,59 +203,31 @@
             margin-top: 20px;
         }
         
-        .btn-limpar {
-            background: #E74C3C;
-            font-size: 13px;
+        .btn-limpar { background: #E74C3C; }
+        .btn-exportar { background: #F39C12; }
+        
+        .erro {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
         }
         
-        .btn-exportar {
-            background: #F39C12;
-            font-size: 13px;
+        .erro.mostrar {
+            display: block;
         }
         
-        .config-api {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+        .loading {
             text-align: center;
+            padding: 10px;
+            color: #667eea;
+            display: none;
         }
         
-        .config-api details {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .config-api input {
-            width: 100%;
-            margin-top: 8px;
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            animation: toastIn 0.3s ease;
-            z-index: 1000;
-        }
-        
-        @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .container { padding: 20px; }
-            .ia-input { flex-direction: column; }
+        .loading.mostrar {
+            display: block;
         }
     </style>
 </head>
@@ -271,27 +236,44 @@
         <h1>📅 Minha Rotina com IA</h1>
         <p class="data" id="dataAtual"></p>
         
+        <!-- Configuração API -->
+        <details class="api-config">
+            <summary>⚙️ Configurar API Gemini (obrigatório para IA)</summary>
+            <p style="font-size: 13px; margin: 10px 0;">
+                1. Acesse: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a><br>
+                2. Clique em "Get API Key" ou "Create API Key"<br>
+                3. Copie a chave e cole abaixo:
+            </p>
+            <input type="password" id="apiKeyInput" placeholder="Cole sua API Key aqui (AIzaSy...)">
+            <div style="margin-top: 10px;">
+                <button onclick="salvarAPIKey()" style="background: #28a745;">💾 Salvar Chave</button>
+                <button onclick="testarAPI()" style="background: #17a2b8;">🔍 Testar Conexão</button>
+            </div>
+            <p id="statusAPI" style="font-size: 13px; margin-top: 10px;"></p>
+        </details>
+        
         <!-- Seção IA -->
         <div class="ia-section">
-            <p>🤖 <strong>IA Assistant</strong></p>
+            <h3>🤖 Assistente IA</h3>
             <div class="ia-input">
-                <input type="text" id="promptIA" placeholder="Ex: rotina produtiva de sábado">
+                <input type="text" id="promptIA" placeholder="Ex: rotina de sábado produtivo">
                 <button class="btn-ia" onclick="gerarRotina()" id="btnGerar">
-                    ✨ Gerar Rotina
+                    ✨ Gerar
                 </button>
             </div>
-            <div class="loading" id="loading">
-                ⏳ Gerando sugestões com IA...
-            </div>
-            <small style="color: #888;">Exemplos: "dia de estudos", "domingo relaxante", "rotina fitness"</small>
+            <div class="loading" id="loading">⏳ IA pensando...</div>
+            <div class="erro" id="erroMsg"></div>
+            <small style="color: #888; display: block; margin-top: 5px;">
+                Exemplos: "dia de estudos", "domingo relaxante", "rotina fitness"
+            </small>
         </div>
         
         <!-- Formulário Manual -->
         <div class="form-group">
-            <input type="text" id="nome" placeholder="O que vai fazer?" required>
-            <input type="time" id="hora" required>
+            <input type="text" id="nome" placeholder="O que vai fazer?">
+            <input type="time" id="hora">
             <input type="number" id="duracao" placeholder="Min" min="1" value="30" style="width: 70px;">
-            <button onclick="adicionar()">➕</button>
+            <button class="btn-adicionar" onclick="adicionar()">➕</button>
         </div>
         
         <!-- Lista -->
@@ -302,32 +284,11 @@
             <button class="btn-limpar" onclick="limparTudo()">🗑️ Limpar</button>
             <button class="btn-exportar" onclick="exportarDados()">📥 Exportar</button>
         </div>
-        
-        <!-- Configuração API -->
-        <div class="config-api">
-            <details>
-                <summary>⚙️ Configurar API Gemini</summary>
-                <small>Cole sua chave API do Google Gemini:</small>
-                <input type="password" id="apiKey" placeholder="AIzaSy..." style="margin-top: 5px;">
-                <button onclick="salvarAPIKey()" style="margin-top: 5px; width: 100%;">💾 Salvar Chave</button>
-                <small style="display: block; margin-top: 5px;">
-                    Pegue sua chave gratuita em: 
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
-                </small>
-            </details>
-        </div>
     </div>
 
     <script>
-        // ============ CONFIGURAÇÃO ============
+        // ============ INICIALIZAÇÃO ============
         let API_KEY = localStorage.getItem('gemini_api_key') || '';
-        
-        // Carregar chave se existir
-        if (API_KEY) {
-            document.getElementById('apiKey').value = API_KEY;
-        }
-        
-        // ============ DADOS ============
         let atividades = JSON.parse(localStorage.getItem('rotina') || '[]');
         
         // Mostrar data
@@ -335,24 +296,101 @@
             weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
         });
         
-        // ============ FUNÇÕES ============
+        // Carregar chave se existir
+        if (API_KEY) {
+            document.getElementById('apiKeyInput').value = API_KEY;
+            document.getElementById('statusAPI').textContent = '✅ Chave configurada';
+            document.getElementById('statusAPI').style.color = 'green';
+        }
         
-        // Salvar API Key
+        // ============ FUNÇÕES API ============
+        
         function salvarAPIKey() {
-            const key = document.getElementById('apiKey').value.trim();
-            if (key) {
-                API_KEY = key;
-                localStorage.setItem('gemini_api_key', key);
-                mostrarToast('✅ Chave API salva!');
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (!key) {
+                alert('Cole sua chave API primeiro!');
+                return;
+            }
+            
+            if (!key.startsWith('AIza')) {
+                alert('❌ Chave inválida! Deve começar com "AIza"');
+                return;
+            }
+            
+            API_KEY = key;
+            localStorage.setItem('gemini_api_key', key);
+            document.getElementById('statusAPI').textContent = '✅ Chave salva!';
+            document.getElementById('statusAPI').style.color = 'green';
+            alert('✅ Chave salva com sucesso!');
+        }
+        
+        async function testarAPI() {
+            const key = document.getElementById('apiKeyInput').value || API_KEY;
+            
+            if (!key) {
+                alert('Configure a chave primeiro!');
+                return;
+            }
+            
+            const statusEl = document.getElementById('statusAPI');
+            statusEl.textContent = '🔍 Testando...';
+            statusEl.style.color = 'blue';
+            
+            try {
+                const response = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{ text: "Responda apenas: FUNCIONANDO" }]
+                            }]
+                        })
+                    }
+                );
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `Erro HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0]) {
+                    statusEl.textContent = '✅ API funcionando perfeitamente!';
+                    statusEl.style.color = 'green';
+                    alert('✅ Teste bem-sucedido! A API está funcionando.');
+                } else {
+                    throw new Error('Resposta inesperada da API');
+                }
+            } catch (erro) {
+                statusEl.textContent = `❌ Erro: ${erro.message}`;
+                statusEl.style.color = 'red';
+                console.error('Erro no teste:', erro);
+                
+                // Sugestões de solução
+                let sugestao = '\n\nPossíveis soluções:\n';
+                sugestao += '1. Verifique se a chave foi copiada corretamente\n';
+                sugestao += '2. Acesse https://aistudio.google.com/app/apikey\n';
+                sugestao += '3. Crie uma nova chave se necessário\n';
+                sugestao += '4. Verifique sua conexão com internet';
+                
+                alert('❌ Erro no teste: ' + erro.message + sugestao);
             }
         }
         
-        // Gerar rotina com IA
         async function gerarRotina() {
             const prompt = document.getElementById('promptIA').value.trim();
+            const erroEl = document.getElementById('erroMsg');
+            const loading = document.getElementById('loading');
+            const btnGerar = document.getElementById('btnGerar');
+            
+            // Esconder erro anterior
+            erroEl.classList.remove('mostrar');
             
             if (!API_KEY) {
-                alert('⚠️ Configure sua chave API primeiro!\n\nClique em "Configurar API Gemini" no final da página.');
+                alert('⚠️ Configure sua chave API primeiro!\n\nAbra a seção "Configurar API Gemini" acima.');
                 return;
             }
             
@@ -361,100 +399,91 @@
                 return;
             }
             
-            const btnGerar = document.getElementById('btnGerar');
-            const loading = document.getElementById('loading');
-            
             btnGerar.disabled = true;
             loading.classList.add('mostrar');
             
             try {
-                const sugestoes = await chamarGemini(prompt);
-                
-                if (sugestoes && sugestoes.length > 0) {
-                    // Perguntar antes de adicionar
-                    const resumo = sugestoes.map(a => 
-                        `• ${a.nome} às ${a.hora} (${a.duracao}min)`
-                    ).join('\n');
-                    
-                    if (confirm(`IA sugere ${sugestoes.length} atividades:\n\n${resumo}\n\nAdicionar à rotina?`)) {
-                        sugestoes.forEach(atv => {
-                            atividades.push({
-                                id: Date.now() + Math.random(),
-                                nome: atv.nome,
-                                hora: atv.hora,
-                                duracao: atv.duracao,
-                                concluida: false
-                            });
-                        });
-                        
-                        atividades.sort((a, b) => a.hora.localeCompare(b.hora));
-                        salvar();
-                        renderizar();
-                        mostrarToast(`✨ ${sugestoes.length} atividades adicionadas!`);
+                const response = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `Crie uma rotina diária para: "${prompt}"
+                                    
+Retorne APENAS um array JSON com 4-6 atividades. Exemplo:
+[
+  {"nome": "Acordar e alongar", "hora": "07:00", "duracao": 30},
+  {"nome": "Café da manhã", "hora": "07:30", "duracao": 30}
+]
+
+Regras:
+- Use horários no formato HH:mm (24h)
+- Duração entre 15 e 120 minutos
+- Distribua ao longo do dia
+- Seja realista e prático`
+                                }]
+                            }]
+                        })
                     }
+                );
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `Erro HTTP ${response.status}`);
                 }
+                
+                const data = await response.json();
+                const texto = data.candidates[0].content.parts[0].text;
+                
+                // Extrair JSON
+                const jsonMatch = texto.match(/\[[\s\S]*\]/);
+                if (!jsonMatch) {
+                    throw new Error('IA não retornou um JSON válido');
+                }
+                
+                const sugestoes = JSON.parse(jsonMatch[0]);
+                
+                if (!sugestoes || sugestoes.length === 0) {
+                    throw new Error('Nenhuma sugestão gerada');
+                }
+                
+                // Mostrar sugestões
+                const resumo = sugestoes.map(a => 
+                    `• ${a.nome} às ${a.hora} (${a.duracao}min)`
+                ).join('\n');
+                
+                if (confirm(`🤖 IA sugere ${sugestoes.length} atividades:\n\n${resumo}\n\nAdicionar à rotina?`)) {
+                    sugestoes.forEach(atv => {
+                        atividades.push({
+                            id: Date.now() + Math.random(),
+                            nome: atv.nome,
+                            hora: atv.hora,
+                            duracao: atv.duracao,
+                            concluida: false
+                        });
+                    });
+                    
+                    atividades.sort((a, b) => a.hora.localeCompare(b.hora));
+                    salvar();
+                    renderizar();
+                    alert(`✨ ${sugestoes.length} atividades adicionadas com sucesso!`);
+                }
+                
             } catch (erro) {
-                console.error('Erro:', erro);
-                alert('❌ Erro ao gerar rotina. Verifique sua chave API e tente novamente.');
+                console.error('Erro completo:', erro);
+                erroEl.textContent = `❌ ${erro.message}`;
+                erroEl.classList.add('mostrar');
             } finally {
                 btnGerar.disabled = false;
                 loading.classList.remove('mostrar');
             }
         }
         
-        // Chamar API Gemini
-        async function chamarGemini(prompt) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
-            
-            const systemPrompt = `Você é um assistente de rotina diária. 
-O usuário quer uma rotina para: "${prompt}"
-
-Gere de 4 a 6 atividades realistas em formato JSON. 
-Cada atividade deve ter:
-- nome: descrição curta da atividade
-- hora: horário no formato HH:mm (24h), começando de manhã cedo
-- duracao: duração em minutos (entre 15 e 120)
-
-Distribua as atividades ao longo do dia de forma lógica.
-Responda APENAS com o JSON, sem texto adicional.
-
-Exemplo de formato:
-[
-  {"nome": "Acordar e alongar", "hora": "07:00", "duracao": 30},
-  {"nome": "Café da manhã", "hora": "07:30", "duracao": 30}
-]`;
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: systemPrompt
-                        }]
-                    }]
-                })
-            });
-            
-            if (!response.ok) {
-                throw new Error('Erro na API');
-            }
-            
-            const data = await response.json();
-            const texto = data.candidates[0].content.parts[0].text;
-            
-            // Extrair JSON da resposta
-            const jsonMatch = texto.match(/\[[\s\S]*\]/);
-            if (!jsonMatch) {
-                throw new Error('Formato inválido');
-            }
-            
-            return JSON.parse(jsonMatch[0]);
-        }
+        // ============ FUNÇÕES BÁSICAS ============
         
-        // Adicionar manualmente
         function adicionar() {
             const nome = document.getElementById('nome').value.trim();
             const hora = document.getElementById('hora').value;
@@ -481,7 +510,6 @@ Exemplo de formato:
             document.getElementById('nome').focus();
         }
         
-        // Toggle conclusão
         function toggle(id) {
             const atividade = atividades.find(a => a.id === id);
             if (atividade) {
@@ -491,7 +519,6 @@ Exemplo de formato:
             }
         }
         
-        // Remover atividade
         function remover(id) {
             if (confirm('Remover esta atividade?')) {
                 atividades = atividades.filter(a => a.id !== id);
@@ -500,22 +527,18 @@ Exemplo de formato:
             }
         }
         
-        // Limpar tudo
         function limparTudo() {
             if (atividades.length === 0) {
                 alert('Nada para limpar!');
                 return;
             }
-            
             if (confirm('Apagar TODAS as atividades?')) {
                 atividades = [];
                 salvar();
                 renderizar();
-                mostrarToast('🗑️ Rotina limpa!');
             }
         }
         
-        // Exportar dados
         function exportarDados() {
             if (atividades.length === 0) {
                 alert('Nada para exportar!');
@@ -534,15 +557,12 @@ Exemplo de formato:
             a.download = `rotina_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            mostrarToast('📥 Dados exportados!');
         }
         
-        // Salvar no localStorage
         function salvar() {
             localStorage.setItem('rotina', JSON.stringify(atividades));
         }
         
-        // Renderizar lista
         function renderizar() {
             const lista = document.getElementById('lista');
             
@@ -567,19 +587,7 @@ Exemplo de formato:
             `).join('');
         }
         
-        // Toast notification
-        function mostrarToast(mensagem) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = mensagem;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-        
-        // Atalhos
+        // Atalho: Enter no formulário
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && document.activeElement === document.getElementById('nome')) {
                 e.preventDefault();
