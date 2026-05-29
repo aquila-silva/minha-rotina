@@ -11,285 +11,91 @@
             --success: #27AE60;
             --danger: #E74C3C;
             --warning: #F39C12;
+            --info: #3498db;
             --bg: #f0f2f5;
-            --card: white;
-            --text: #333;
-            --text-light: #666;
+            --card: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
             --border: #e0e0e0;
-            --shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: var(--bg);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-        }
-
-        /* Menu Lateral Retrátil */
-        .sidebar {
-            position: fixed;
-            left: -300px;
-            top: 0;
-            width: 300px;
-            height: 100vh;
-            background: white;
-            box-shadow: 2px 0 20px rgba(0,0,0,0.2);
-            transition: left 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
             padding: 20px;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-
-        .sidebar-overlay.show {
-            display: block;
-        }
-
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .sidebar-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text);
-        }
-
-        /* Menu Hamburger */
-        .menu-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 998;
-            box-shadow: var(--shadow);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .menu-toggle:hover {
-            transform: scale(1.1);
-            background: var(--primary-dark);
-        }
-
-        /* Container Principal */
-        .main-container {
-            flex: 1;
-            padding: 20px;
-            padding-left: 80px;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
         }
 
         .container {
+            max-width: 700px;
+            margin: 0 auto;
             background: var(--card);
             border-radius: 20px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--text);
-            margin-bottom: 5px;
-            font-size: 24px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Seções do Menu */
-        .menu-section {
-            margin-bottom: 25px;
-        }
-
-        .menu-section h3 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin: 5px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        .menu-item:hover {
-            background: #f0f2f5;
-            transform: translateX(5px);
-        }
-
-        .menu-item .icon {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-
-        .menu-item.active {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-        }
-
-        /* Relatório no Menu */
-        .mini-relatorio {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-        }
-
-        .mini-relatorio h4 {
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-
-        .relatorio-stat {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            font-size: 13px;
-        }
-
-        .relatorio-stat:last-child {
-            border-bottom: none;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            margin-top: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), #2ecc71);
-            border-radius: 10px;
-            transition: width 0.3s;
-        }
-
-        /* Configuração API separada */
-        .config-api {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border: 1px solid #ffc107;
-        }
-
-        .config-api input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        .config-api button {
-            background: #28a745;
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 25px 30px;
             color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-right: 5px;
+            text-align: center;
         }
 
-        /* Navegação de Datas */
-        .navegacao-data {
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        /* Navegação de datas */
+        .nav-datas {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 15px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .btn-nav {
-            background: var(--primary);
-            color: white;
-            border: none;
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            cursor: pointer;
+            border: 2px solid white;
+            background: rgba(255,255,255,0.2);
+            color: white;
             font-size: 18px;
-            transition: 0.3s;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .btn-nav:hover {
-            background: var(--primary-dark);
+            background: rgba(255,255,255,0.3);
             transform: scale(1.1);
         }
 
         .data-display {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
             font-weight: bold;
-            font-size: 16px;
             min-width: 200px;
             text-align: center;
         }
 
         .btn-hoje, .btn-calendario {
-            padding: 8px 15px;
+            padding: 6px 15px;
             border-radius: 20px;
             border: none;
             cursor: pointer;
             font-weight: bold;
             font-size: 13px;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
         .btn-hoje {
@@ -302,14 +108,18 @@
             color: white;
         }
 
-        /* IA Section Melhorada */
+        .btn-hoje:hover, .btn-calendario:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Seção IA */
         .ia-section {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            margin: 20px;
             padding: 20px;
             border-radius: 15px;
-            margin-bottom: 20px;
-            border: 2px solid transparent;
-            border-image: linear-gradient(135deg, var(--primary), var(--primary-dark)) 1;
+            border: 2px solid var(--primary);
         }
 
         .ia-header {
@@ -320,7 +130,7 @@
         }
 
         .ia-icon {
-            font-size: 30px;
+            font-size: 32px;
             animation: pulse 2s infinite;
         }
 
@@ -337,33 +147,40 @@
 
         .ia-input-group input {
             flex: 1;
-            padding: 12px;
+            padding: 12px 15px;
             border: 2px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .ia-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
 
         .ia-suggestions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin-top: 10px;
         }
 
         .ia-suggestion {
             background: white;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             border: 1px solid var(--primary);
             color: var(--primary);
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
         .ia-suggestion:hover {
             background: var(--primary);
             color: white;
+            transform: scale(1.05);
         }
 
         .btn-ia {
@@ -371,163 +188,282 @@
             color: white;
             border: none;
             padding: 12px 25px;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
+            font-size: 14px;
+            transition: all 0.3s;
             white-space: nowrap;
         }
 
-        .btn-ia:hover {
+        .btn-ia:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
         }
 
         .btn-ia:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
         /* Formulário */
+        .form-section {
+            padding: 0 20px 20px;
+        }
+
         .form-group {
             display: flex;
             gap: 8px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        input, select {
-            padding: 12px;
+        .form-group input, .form-group select {
+            padding: 12px 15px;
             border: 2px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 14px;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
-        input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
 
-        input[type="text"] { flex: 1; min-width: 140px; }
+        .form-group input[type="text"] {
+            flex: 1;
+            min-width: 150px;
+        }
 
-        button {
-            padding: 12px 20px;
+        .form-group input[type="number"] {
+            width: 80px;
+        }
+
+        .btn-adicionar {
+            background: var(--primary);
+            color: white;
             border: none;
-            border-radius: 10px;
+            padding: 12px 25px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
-            color: white;
-            transition: 0.3s;
+            font-size: 14px;
+            transition: all 0.3s;
         }
 
-        button:hover {
+        .btn-adicionar:hover {
+            background: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .btn-adicionar { background: var(--primary); }
+        /* Lista de atividades */
+        .lista-section {
+            padding: 0 20px 20px;
+        }
 
-        /* Atividades */
-        .atividade {
+        .atividade-card {
             display: flex;
             align-items: center;
             padding: 15px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             background: #f8f9fa;
             border-radius: 12px;
             border-left: 5px solid var(--primary);
             animation: slideIn 0.3s ease;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .atividade.concluida {
+        .atividade-card:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .atividade-card.concluida {
             opacity: 0.6;
-            text-decoration: line-through;
             border-left-color: var(--success);
             background: #f0faf3;
         }
 
-        .atividade.atrasada {
+        .atividade-card.concluida .atividade-nome {
+            text-decoration: line-through;
+        }
+
+        .atividade-card.atrasada {
             border-left-color: var(--danger);
             background: #fef5f5;
         }
 
-        .atividade.futura {
-            border-left-color: #3498db;
+        .atividade-card.futura {
+            border-left-color: var(--info);
             background: #f0f8ff;
         }
 
-        .info { flex: 1; }
-
-        .nome {
-            font-weight: bold;
-            margin-bottom: 3px;
-            font-size: 15px;
+        .atividade-info {
+            flex: 1;
         }
 
-        .detalhes {
+        .atividade-nome {
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .atividade-detalhes {
             font-size: 12px;
             color: var(--text-light);
-        }
-
-        .acoes button {
-            padding: 6px 10px;
-            margin-left: 3px;
-            font-size: 16px;
-        }
-
-        .btn-concluir { background: var(--success); }
-        .btn-remover { background: var(--danger); }
-        .btn-editar { background: var(--warning); }
-
-        .vazio {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        /* Loading e Erros */
-        .loading {
-            text-align: center;
-            padding: 10px;
-            color: var(--primary);
-            display: none;
-        }
-
-        .loading.show { display: block; }
-
-        .erro {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            display: none;
-        }
-
-        .erro.show { display: block; }
-
-        /* Footer */
-        .footer {
             display: flex;
             gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
             flex-wrap: wrap;
         }
 
-        .btn-limpar { background: var(--danger); font-size: 13px; }
-        .btn-exportar { background: var(--warning); font-size: 13px; }
+        .status-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
 
-        /* Calendário popup */
+        .status-concluido { background: #d4edda; color: #155724; }
+        .status-pendente { background: #fff3cd; color: #856404; }
+        .status-atrasado { background: #f8d7da; color: #721c24; }
+        .status-futuro { background: #d1ecf1; color: #0c5460; }
+
+        .atividade-acoes {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-acao {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-concluir { background: var(--success); color: white; }
+        .btn-remover { background: var(--danger); color: white; }
+
+        .btn-acao:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .vazio {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+
+        .vazio-icon {
+            font-size: 50px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-footer {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .btn-footer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-limpar { background: var(--danger); }
+        .btn-exportar { background: var(--warning); }
+        .btn-copiar { background: var(--info); }
+        .btn-relatorio { background: #8E44AD; }
+
+        /* Mensagens */
+        .mensagem {
+            display: none;
+            padding: 12px 15px;
+            margin: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .mensagem.show {
+            display: block;
+        }
+
+        .mensagem.erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .mensagem.sucesso {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mensagem.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Overlay e Popups */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
         .popup {
             display: none;
             position: fixed;
@@ -535,13 +471,22 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            z-index: 1001;
+            z-index: 1000;
+            min-width: 300px;
+            max-width: 90%;
         }
 
-        .popup.show { display: block; }
+        .popup.show {
+            display: block;
+        }
+
+        .popup h3 {
+            margin-bottom: 20px;
+            color: var(--text);
+        }
 
         .popup input[type="date"] {
             width: 100%;
@@ -549,147 +494,132 @@
             border: 2px solid var(--border);
             border-radius: 10px;
             font-size: 16px;
-            margin: 10px 0;
         }
 
         .popup-actions {
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 10px;
-                padding-left: 60px;
-            }
-            
-            .menu-toggle {
-                top: 10px;
-                left: 10px;
-                width: 40px;
-                height: 40px;
-            }
-            
-            .container {
-                padding: 15px;
-            }
+        .popup-actions button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .popup-actions button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-confirmar { background: var(--primary); }
+        .btn-cancelar { background: #999; }
+
+        /* Relatório no popup */
+        .relatorio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .relatorio-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .relatorio-valor {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .relatorio-label {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #2ecc71);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 600px) {
+            .container { margin: 10px; }
+            .form-group { flex-direction: column; }
+            .form-group input[type="text"] { width: 100%; }
+            .ia-input-group { flex-direction: column; }
+            .nav-datas { gap: 5px; }
+            .data-display { font-size: 14px; min-width: 150px; }
         }
     </style>
 </head>
 <body>
-    <!-- Botão Menu -->
-    <button class="menu-toggle" onclick="toggleMenu()" title="Menu">☰</button>
-
-    <!-- Overlay Menu -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
-
-    <!-- Menu Lateral -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>📋 Menu</h2>
-            <button class="sidebar-close" onclick="toggleMenu()">✕</button>
-        </div>
-
-        <div class="menu-section">
-            <h3>📅 Navegação</h3>
-            <div class="menu-item active" onclick="irParaHoje(); toggleMenu();">
-                <span class="icon">🏠</span> Hoje
-            </div>
-            <div class="menu-item" onclick="abrirCalendario(); toggleMenu();">
-                <span class="icon">📆</span> Escolher Data
-            </div>
-        </div>
-
-        <div class="menu-section">
-            <h3>📊 Relatório Rápido</h3>
-            <div class="mini-relatorio" id="miniRelatorio">
-                <h4>Últimos 7 dias</h4>
-                <div class="relatorio-stat">
-                    <span>📅 Dias com rotina:</span>
-                    <strong id="rDiasAtivos">0/7</strong>
-                </div>
-                <div class="relatorio-stat">
-                    <span>✅ Média conclusão:</span>
-                    <strong id="rMediaConclusao">0%</strong>
-                </div>
-                <div class="relatorio-stat">
-                    <span>📝 Total atividades:</span>
-                    <strong id="rTotalAtividades">0</strong>
-                </div>
-                <div class="relatorio-stat">
-                    <span>⏱️ Média tempo/dia:</span>
-                    <strong id="rMediaTempo">0min</strong>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="rProgressBar" style="width: 0%"></div>
-                </div>
-                <small style="color: #666; display: block; margin-top: 5px;">Taxa de conclusão semanal</small>
-            </div>
-        </div>
-
-        <div class="menu-section">
-            <h3>⚙️ Configurações</h3>
-            <div class="config-api">
-                <strong>🤖 API Gemini</strong>
-                <input type="password" id="apiKeyInput" placeholder="Cole sua API Key">
-                <div style="margin-top: 8px;">
-                    <button onclick="salvarAPIKey()">💾 Salvar</button>
-                    <button onclick="testarAPI()" style="background: #17a2b8;">🔍 Testar</button>
-                </div>
-                <p id="statusAPI" style="font-size: 12px; margin-top: 5px;"></p>
-                <small style="display: block; margin-top: 5px;">
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank">Obter chave gratuita</a>
-                </small>
-            </div>
-        </div>
-    </div>
-
-    <!-- Conteúdo Principal -->
-    <div class="main-container">
-        <div class="container">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
             <h1>📅 Daily Planner Pro</h1>
-            
-            <!-- Navegação de Datas -->
-            <div class="navegacao-data">
-                <button class="btn-nav" onclick="mudarDia(-1)">◀</button>
-                <div class="data-display" id="dataDisplay"></div>
-                <button class="btn-nav" onclick="mudarDia(1)">▶</button>
-                <button class="btn-hoje" onclick="irParaHoje()">📍 Hoje</button>
-                <button class="btn-calendario" onclick="abrirCalendario()">📆 Data</button>
+            <div class="nav-datas">
+                <button class="btn-nav" onclick="app.mudarDia(-1)" title="Dia anterior">◀</button>
+                <div class="data-display" id="dataDisplay">Carregando...</div>
+                <button class="btn-nav" onclick="app.mudarDia(1)" title="Próximo dia">▶</button>
+                <button class="btn-hoje" onclick="app.irParaHoje()">📍 Hoje</button>
+                <button class="btn-calendario" onclick="app.abrirCalendario()">📆</button>
             </div>
-            
-            <!-- IA Section -->
-            <div class="ia-section">
-                <div class="ia-header">
-                    <span class="ia-icon">🤖</span>
-                    <div>
-                        <strong>Assistente IA</strong>
-                        <p style="font-size: 12px; color: #666;">Deixe a IA montar sua rotina</p>
-                    </div>
+        </div>
+
+        <!-- Mensagens -->
+        <div class="mensagem" id="msgErro"></div>
+        <div class="mensagem" id="msgSucesso"></div>
+        <div class="mensagem loading" id="msgLoading" style="display:none;">⏳ Processando...</div>
+
+        <!-- Seção IA -->
+        <div class="ia-section">
+            <div class="ia-header">
+                <span class="ia-icon">🤖</span>
+                <div>
+                    <strong style="font-size: 16px;">Assistente IA</strong>
+                    <p style="font-size: 12px; color: #666;">Deixe a IA montar sua rotina</p>
                 </div>
-                <div class="ia-input-group">
-                    <input type="text" id="promptIA" placeholder="Ex: rotina de sábado produtivo com exercícios">
-                    <button class="btn-ia" onclick="gerarRotina()" id="btnGerar">✨ Gerar</button>
-                </div>
-                <div class="ia-suggestions">
-                    <span class="ia-suggestion" onclick="preencherPrompt('dia de trabalho focado')">💼 Trabalho</span>
-                    <span class="ia-suggestion" onclick="preencherPrompt('rotina de estudos intensiva')">📚 Estudos</span>
-                    <span class="ia-suggestion" onclick="preencherPrompt('dia de autocuidado e saúde')">💪 Saúde</span>
-                    <span class="ia-suggestion" onclick="preencherPrompt('domingo relaxante e lazer')">🎮 Lazer</span>
-                    <span class="ia-suggestion" onclick="preencherPrompt('rotina matinal produtiva')">🌅 Manhã</span>
-                </div>
-                <div class="loading" id="loading">⏳ IA criando sua rotina perfeita...</div>
-                <div class="erro" id="erroMsg"></div>
             </div>
-            
-            <!-- Formulário -->
+            <div class="ia-input-group">
+                <input type="text" id="promptIA" placeholder="Descreva sua rotina ideal...">
+                <button class="btn-ia" id="btnGerar" onclick="app.gerarRotina()">✨ Gerar</button>
+            </div>
+            <div class="ia-suggestions">
+                <span class="ia-suggestion" onclick="app.preencherPrompt('dia de trabalho focado e produtivo')">💼 Trabalho</span>
+                <span class="ia-suggestion" onclick="app.preencherPrompt('rotina de estudos intensiva')">📚 Estudos</span>
+                <span class="ia-suggestion" onclick="app.preencherPrompt('dia de saúde e exercícios')">💪 Saúde</span>
+                <span class="ia-suggestion" onclick="app.preencherPrompt('domingo relaxante e lazer')">🎮 Lazer</span>
+            </div>
+        </div>
+
+        <!-- Formulário -->
+        <div class="form-section">
             <div class="form-group">
-                <input type="text" id="nome" placeholder="Nova atividade">
-                <input type="time" id="hora">
-                <input type="number" id="duracao" placeholder="Min" min="1" value="30" style="width: 70px;">
-                <select id="categoria" style="width: 120px;">
+                <input type="text" id="nomeAtividade" placeholder="Nova atividade...">
+                <input type="time" id="horaAtividade" title="Horário">
+                <input type="number" id="duracaoAtividade" placeholder="Min" min="1" max="480" value="30">
+                <select id="categoriaAtividade">
                     <option value="geral">📌 Geral</option>
                     <option value="trabalho">💼 Trabalho</option>
                     <option value="estudo">📚 Estudo</option>
@@ -697,351 +627,75 @@
                     <option value="lazer">🎮 Lazer</option>
                     <option value="casa">🏠 Casa</option>
                 </select>
-                <button class="btn-adicionar" onclick="adicionar()">➕ Adicionar</button>
-            </div>
-            
-            <!-- Lista de Atividades -->
-            <div id="lista"></div>
-            
-            <!-- Footer -->
-            <div class="footer">
-                <button class="btn-limpar" onclick="limparDia()">🗑️ Limpar dia</button>
-                <button class="btn-exportar" onclick="exportarDados()">📥 Exportar</button>
-                <button onclick="copiarRotina()" style="background: #3498db;">📋 Copiar</button>
+                <button class="btn-adicionar" onclick="app.adicionarAtividade()">➕ Adicionar</button>
             </div>
         </div>
+
+        <!-- Lista de Atividades -->
+        <div class="lista-section" id="listaAtividades">
+            <p class="vazio">
+                <span class="vazio-icon">✨</span>
+                Nenhuma atividade para este dia<br>
+                <small>Adicione manualmente ou peça ajuda da IA</small>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <button class="btn-footer btn-relatorio" onclick="app.mostrarRelatorio()">📊 Relatório</button>
+            <button class="btn-footer btn-copiar" onclick="app.copiarRotina()">📋 Copiar</button>
+            <button class="btn-footer btn-exportar" onclick="app.exportarDados()">📥 Exportar</button>
+            <button class="btn-footer btn-limpar" onclick="app.limparDia()">🗑️ Limpar</button>
+            <button class="btn-footer" onclick="app.mostrarConfiguracao()" style="background:#667eea;">⚙️ API</button>
+        </div>
     </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- Popup Calendário -->
-    <div class="popup" id="calendarioPopup">
+    <div class="popup" id="popupCalendario">
         <h3>📆 Selecionar Data</h3>
-        <input type="date" id="inputData">
+        <input type="date" id="inputDataPopup">
         <div class="popup-actions">
-            <button onclick="selecionarData()" style="background: var(--primary);">✅ Ir para data</button>
-            <button onclick="fecharPopup('calendarioPopup')" style="background: #999;">Cancelar</button>
+            <button class="btn-confirmar" onclick="app.selecionarData()">✅ Confirmar</button>
+            <button class="btn-cancelar" onclick="app.fecharPopup('popupCalendario')">Cancelar</button>
         </div>
     </div>
 
+    <!-- Popup Relatório -->
+    <div class="popup" id="popupRelatorio">
+        <h3>📊 Relatório Semanal</h3>
+        <div id="relatorioConteudo"></div>
+        <div class="popup-actions">
+            <button class="btn-cancelar" onclick="app.fecharPopup('popupRelatorio')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Popup Configuração -->
+    <div class="popup" id="popupConfig">
+        <h3>⚙️ Configurar API Gemini</h3>
+        <p style="font-size:13px; color:#666; margin-bottom:15px;">
+            Obtenha sua chave gratuita em:<br>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+        </p>
+        <input type="password" id="apiKeyInput" placeholder="Cole sua API Key (AIzaSy...)">
+        <div class="popup-actions" style="flex-wrap: wrap;">
+            <button class="btn-confirmar" onclick="app.salvarAPIKey()">💾 Salvar</button>
+            <button onclick="app.testarAPI()" style="background:#17a2b8; color:white; border:none; padding:10px 25px; border-radius:10px; cursor:pointer; font-weight:bold;">🔍 Testar</button>
+            <button class="btn-cancelar" onclick="app.fecharPopup('popupConfig')">Fechar</button>
+        </div>
+        <p id="statusAPI" style="font-size:13px; margin-top:10px;"></p>
+    </div>
+
+    <!-- Carrega a camada de lógica -->
+    <script src="app.js"></script>
+    
+    <!-- Inicializa a aplicação -->
     <script>
-        // ============ VARIÁVEIS GLOBAIS ============
-        let API_KEY = localStorage.getItem('gemini_api_key') || '';
-        let dataSelecionada = new Date();
-        let atividadesDia = [];
-
-        // ============ INICIALIZAÇÃO ============
-        function init() {
-            if (API_KEY) {
-                document.getElementById('apiKeyInput').value = API_KEY;
-                document.getElementById('statusAPI').textContent = '✅ Conectado';
-                document.getElementById('statusAPI').style.color = 'green';
-            }
-            
-            atualizarDataDisplay();
-            carregarAtividades();
-            atualizarMiniRelatorio();
-            
-            // Atualizar relatório a cada 30 segundos
-            setInterval(atualizarMiniRelatorio, 30000);
-        }
-
-        // ============ MENU ============
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebarOverlay').classList.toggle('show');
-        }
-
-        // ============ NAVEGAÇÃO DE DATAS ============
-        function formatarData(data) {
-            return data.toISOString().split('T')[0];
-        }
-
-        function mudarDia(dias) {
-            dataSelecionada.setDate(dataSelecionada.getDate() + dias);
-            atualizarDataDisplay();
-            carregarAtividades();
-        }
-
-        function irParaHoje() {
-            dataSelecionada = new Date();
-            atualizarDataDisplay();
-            carregarAtividades();
-        }
-
-        function abrirCalendario() {
-            document.getElementById('calendarioPopup').classList.add('show');
-            document.getElementById('inputData').value = formatarData(dataSelecionada);
-        }
-
-        function fecharPopup(id) {
-            document.getElementById(id).classList.remove('show');
-        }
-
-        function selecionarData() {
-            const novaData = document.getElementById('inputData').value;
-            if (novaData) {
-                dataSelecionada = new Date(novaData + 'T12:00:00');
-                atualizarDataDisplay();
-                carregarAtividades();
-            }
-            fecharPopup('calendarioPopup');
-        }
-
-        function atualizarDataDisplay() {
-            const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const display = document.getElementById('dataDisplay');
-            const dataFormatada = dataSelecionada.toLocaleDateString('pt-BR', opcoes);
-            
-            const hoje = new Date();
-            if (formatarData(dataSelecionada) === formatarData(hoje)) {
-                display.textContent = '📍 HOJE - ' + dataFormatada;
-            } else if (dataSelecionada > hoje) {
-                display.textContent = '🔮 ' + dataFormatada + ' (futuro)';
-            } else {
-                display.textContent = '📅 ' + dataFormatada + ' (passado)';
-            }
-        }
-
-        // ============ DADOS ============
-        function getStorageKey() {
-            return 'rotina_' + formatarData(dataSelecionada);
-        }
-
-        function carregarAtividades() {
-            const dados = localStorage.getItem(getStorageKey());
-            atividadesDia = dados ? JSON.parse(dados) : [];
-            renderizarAtividades();
-        }
-
-        function salvarAtividades() {
-            localStorage.setItem(getStorageKey(), JSON.stringify(atividadesDia));
-            atualizarMiniRelatorio();
-        }
-
-        // ============ OPERAÇÕES ============
-        function adicionar() {
-            const nome = document.getElementById('nome').value.trim();
-            const hora = document.getElementById('hora').value;
-            const duracao = document.getElementById('duracao').value;
-            const categoria = document.getElementById('categoria').value;
-            
-            if (!nome || !hora || !duracao) {
-                alert('⚠️ Preencha todos os campos!');
-                return;
-            }
-            
-            atividadesDia.push({
-                id: Date.now() + Math.random(),
-                nome: nome,
-                hora: hora,
-                duracao: parseInt(duracao),
-                categoria: categoria,
-                concluida: false,
-                criadaEm: new Date().toISOString(),
-                dataProgramada: formatarData(dataSelecionada)
-            });
-            
-            atividadesDia.sort((a, b) => a.hora.localeCompare(b.hora));
-            salvarAtividades();
-            renderizarAtividades();
-            
-            document.getElementById('nome').value = '';
-            document.getElementById('nome').focus();
-        }
-
-        function toggle(id) {
-            const atividade = atividadesDia.find(a => a.id === id);
-            if (atividade) {
-                atividade.concluida = !atividade.concluida;
-                atividade.concluidaEm = atividade.concluida ? new Date().toISOString() : null;
-                salvarAtividades();
-                renderizarAtividades();
-            }
-        }
-
-        function remover(id) {
-            if (confirm('🗑️ Remover esta atividade?')) {
-                atividadesDia = atividadesDia.filter(a => a.id !== id);
-                salvarAtividades();
-                renderizarAtividades();
-            }
-        }
-
-        function limparDia() {
-            if (atividadesDia.length === 0) {
-                alert('📭 Nada para limpar!');
-                return;
-            }
-            if (confirm('⚠️ Apagar TODAS as atividades desta data?')) {
-                atividadesDia = [];
-                salvarAtividades();
-                renderizarAtividades();
-            }
-        }
-
-        function copiarRotina() {
-            if (atividadesDia.length === 0) {
-                alert('📭 Nada para copiar!');
-                return;
-            }
-            
-            const texto = atividadesDia.map(a => 
-                `${a.concluida ? '✅' : '⏳'} ${a.hora} - ${a.nome} (${a.duracao}min)`
-            ).join('\n');
-            
-            navigator.clipboard.writeText(texto).then(() => {
-                alert('📋 Rotina copiada!');
-            });
-        }
-
-        // ============ RENDERIZAÇÃO ============
-        function renderizarAtividades() {
-            const lista = document.getElementById('lista');
-            const agora = new Date();
-            const horaAtual = agora.getHours() * 60 + agora.getMinutes();
-            const dataHoje = formatarData(agora);
-            const dataVisualizada = formatarData(dataSelecionada);
-            
-            if (atividadesDia.length === 0) {
-                const mensagem = dataVisualizada > dataHoje ? 
-                    '✨ Planeje seu dia futuro! Adicione atividades.' :
-                    dataVisualizada < dataHoje ?
-                    '📭 Nenhuma atividade registrada neste dia.' :
-                    '✨ Nenhuma atividade hoje. Comece a planejar!';
-                
-                lista.innerHTML = `<p class="vazio">${mensagem}</p>`;
-                return;
-            }
-            
-            lista.innerHTML = atividadesDia.map(a => {
-                const [h, m] = a.hora.split(':').map(Number);
-                const minutosAtividade = h * 60 + m;
-                let classeExtra = '';
-                
-                if (a.concluida) {
-                    classeExtra = 'concluida';
-                } else if (dataVisualizada === dataHoje && minutosAtividade < horaAtual) {
-                    classeExtra = 'atrasada';
-                } else if (dataVisualizada > dataHoje) {
-                    classeExtra = 'futura';
-                }
-                
-                const icones = {
-                    trabalho: '💼', estudo: '📚', saude: '💪',
-                    lazer: '🎮', casa: '🏠', geral: '📌'
-                };
-                const icon = icones[a.categoria] || '📌';
-                
-                return `
-                    <div class="atividade ${classeExtra}">
-                        <div class="info">
-                            <div class="nome">${icon} ${a.nome}</div>
-                            <div class="detalhes">
-                                🕐 ${a.hora} | ⏱️ ${a.duracao} min
-                                ${a.concluida ? ' | ✅ Concluída' : 
-                                  classeExtra === 'atrasada' ? ' | ⚠️ Atrasada' : 
-                                  classeExtra === 'futura' ? ' | 📅 Programada' : ' | ⏳ Pendente'}
-                            </div>
-                        </div>
-                        <div class="acoes">
-                            <button class="btn-concluir" onclick="toggle(${a.id})" title="Concluir/Reabrir">
-                                ${a.concluida ? '↩️' : '✅'}
-                            </button>
-                            <button class="btn-remover" onclick="remover(${a.id})" title="Remover">🗑️</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // ============ MINI RELATÓRIO ============
-        function atualizarMiniRelatorio() {
-            const hoje = new Date();
-            let diasAtivos = 0;
-            let totalConclusao = 0;
-            let totalAtividades = 0;
-            let totalTempo = 0;
-            
-            // Analisar últimos 7 dias
-            for (let i = 6; i >= 0; i--) {
-                const data = new Date(hoje);
-                data.setDate(data.getDate() - i);
-                const key = 'rotina_' + formatarData(data);
-                const atividades = JSON.parse(localStorage.getItem(key) || '[]');
-                
-                if (atividades.length > 0) {
-                    diasAtivos++;
-                    totalAtividades += atividades.length;
-                    totalTempo += atividades.reduce((s, a) => s + a.duracao, 0);
-                    
-                    const concluidas = atividades.filter(a => a.concluida).length;
-                    totalConclusao += atividades.length > 0 ? 
-                        (concluidas / atividades.length) * 100 : 0;
-                }
-            }
-            
-            const mediaConclusao = diasAtivos > 0 ? 
-                Math.round(totalConclusao / diasAtivos) : 0;
-            const mediaTempo = diasAtivos > 0 ? 
-                Math.round(totalTempo / diasAtivos) : 0;
-            
-            document.getElementById('rDiasAtivos').textContent = `${diasAtivos}/7`;
-            document.getElementById('rMediaConclusao').textContent = `${mediaConclusao}%`;
-            document.getElementById('rTotalAtividades').textContent = totalAtividades;
-            document.getElementById('rMediaTempo').textContent = `${mediaTempo}min`;
-            document.getElementById('rProgressBar').style.width = mediaConclusao + '%';
-        }
-
-        // ============ IA ============
-        function preencherPrompt(texto) {
-            document.getElementById('promptIA').value = texto;
-        }
-
-        function salvarAPIKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if (!key) {
-                alert('Cole sua chave API!');
-                return;
-            }
-            if (!key.startsWith('AIza')) {
-                alert('❌ Chave inválida! Deve começar com AIza');
-                return;
-            }
-            API_KEY = key;
-            localStorage.setItem('gemini_api_key', key);
-            document.getElementById('statusAPI').textContent = '✅ Conectado!';
-            document.getElementById('statusAPI').style.color = 'green';
-            alert('✅ Chave salva com sucesso!');
-        }
-
-        async function testarAPI() {
-            const key = document.getElementById('apiKeyInput').value || API_KEY;
-            if (!key) {
-                alert('Configure a chave primeiro!');
-                return;
-            }
-            
-            const statusEl = document.getElementById('statusAPI');
-            statusEl.textContent = '🔍 Testando...';
-            statusEl.style.color = 'blue';
-            
-            try {
-                const response = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-                    {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: "Responda: FUNCIONANDO" }] }]
-                        })
-                    }
-                );
-                
-                if (response.ok) {
-                    statusEl.textContent = '✅ Funcionando!';
-                    statusEl.style.color = 'green';
-                    alert('✅ API conectada com sucesso!');
-                } else {
-                    throw new Error('Falha na API');
-                }
-            } catch (erro) {
-                statusEl
+        document.addEventListener('DOMContentLoaded', function() {
+            window.app = new DailyPlanner();
+        });
+    </script>
+</body>
+</html>
